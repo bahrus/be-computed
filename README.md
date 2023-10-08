@@ -34,7 +34,7 @@ Compute values from other HTML signals via local script tags.
 </form>
 ```
 
-## Example 1c
+## Example 1c [TODO]
 
 Add more context to the scripting
 
@@ -52,5 +52,36 @@ Add more context to the scripting
         }
     </script>
     <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'>
+</form>
+```
+
+## Example 1d [TODO]
+
+Values coming from host.
+
+```html
+<my-custom-element>
+    #shadow
+        <script nomodule>
+            myProp ** 2
+        </script>
+        <data itemprop=squared be-computed='from myProp.'>
+        <be-hive></be-hive>
+</my-custom-element>
+```
+
+## Example 1e [TODO]
+
+Value coming from marker
+
+```html
+<form itemscope>
+    <my-custom-element -num-value></my-custom-element>
+    
+
+    <script nomodule>
+        numValue ** 2
+    </script>
+    <meta itemprop=square be-computed='from -num-value.'>
 </form>
 ```
