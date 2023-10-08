@@ -6,8 +6,8 @@ import {AP as BPAP, ISignal, Actions as BPActions} from 'be-propagating/types';
 import {ElTypes, SignalRefType} from 'be-linked/types';
 
 export interface EndUserProps extends IBE{
-    Value?: Array<ValueStatement>;
-    Props?: Array<PropsStatement>;
+    from?: Array<ValueStatement>;
+    //Props?: Array<PropsStatement>;
     scriptRef?: Target,
     nameOfExport?: string,
 }
@@ -36,7 +36,7 @@ export interface AllProps extends EndUserProps{
 
 export type ValueStatement = string;
 
-export type PropsStatement = string;
+//export type PropsStatement = string;
 
 export type AP = AllProps;
 
