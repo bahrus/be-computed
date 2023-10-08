@@ -1,1 +1,19 @@
-# be-computed
+# be-computed [TODO]
+
+Compute values from other HTML signals via local script tags.
+
+## Example 1a [TODO]
+
+```html
+<div itemscope>
+    <link itemprop=isHappy>
+    <link itemprop=isWealthy>
+
+    ...
+
+    <script nomodule>
+        isHappy && !isWealthy
+    </script>
+    <link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy.'>
+</div>
+```
