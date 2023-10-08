@@ -85,3 +85,54 @@ Value coming from marker
     <meta itemprop=square be-computed='from -num-value.'>
 </form>
 ```
+
+## Example 2a [TODO]
+
+```html
+<form itemscope>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <input type=checkbox name=isWealthy>
+    <div contenteditable id=liberated>abc</div>
+    ...
+
+    <script nomodule>
+        ({
+            prop1: isHappy && !isWealthy && liberated.length > 17,
+            prop2: liberated.blink(),
+        })
+    </script>
+    <any-element itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'></any-element>
+</form>
+```
+
+## Viewing Your Element Locally
+
+Any web server that can serve static files will do, but...
+
+1.  Install git.
+2.  Fork/clone this repo.
+3.  Install node.js.
+4.  Open command window to folder where you cloned this repo.
+5.  > npm install
+6.  > npm run serve
+7.  Open http://localhost:3030/demo/ in a modern browser.
+
+## Running Tests
+
+```
+> npm run test
+```
+
+## Using from ESM Module:
+
+```JavaScript
+import 'be-computed/be-computed.js';
+```
+
+## Using from CDN:
+
+```html
+<script type=module crossorigin=anonymous>
+    import 'https://esm.run/be-computed';
+</script>
+```
