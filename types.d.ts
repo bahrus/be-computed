@@ -1,8 +1,8 @@
 import { ActionOnEventConfigs } from "trans-render/froop/types";
 import {IBE} from 'be-enhanced/types';
 import {Target, Scope, ProxyPropChangeInfo} from 'trans-render/lib/types';
-import {BVAAllProps} from 'be-value-added/types';
-import {AP as BPAP, ISignal, Actions as BPActions} from 'be-propagating/types';
+//import {BVAAllProps} from 'be-value-added/types';
+//import {AP as BPAP, ISignal, Actions as BPActions} from 'be-propagating/types';
 import {ElTypes, SignalRefType} from 'be-linked/types';
 
 export interface EndUserProps extends IBE{
