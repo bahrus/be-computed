@@ -47,8 +47,7 @@ export type ProPAP = Promise<PAP>;
 export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>];
 
 export interface Actions{
-    onValues(self: this): ProPAP;
-    onProps(self: this): ProPAP;
+    onFrom(self: this): ProPAP;
     importSymbols(self: this): ProPAP;
     observe(self: this): Promise<void>;
 }
