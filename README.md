@@ -2,7 +2,7 @@
 
 Compute values from other HTML signals via local script tags.
 
-## Example 1a [TODO]
+## Example 1a
 
 ```html
 <div itemscope>
@@ -18,7 +18,7 @@ Compute values from other HTML signals via local script tags.
 </div>
 ```
 
-## Example 1b [TODO]
+## Example 1b
 
 ```html
 <form itemscope>
