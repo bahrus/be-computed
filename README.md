@@ -1,4 +1,4 @@
-# be-computed [TODO]
+# be-computed [WIP]
 
 Compute values from other HTML signals via local script tags.
 
@@ -55,8 +55,24 @@ Add more context to the scripting
 </form>
 ```
 
-## Example 1d [WIP]
+## Example 1d
 
+Values coming from host.
+
+```html
+<my-custom-element>
+    #shadow
+        <script nomodule>
+            myProp ** 2
+        </script>
+        <data itemprop=squared be-computed='from /myProp.'>
+        <be-hive></be-hive>
+</my-custom-element>
+```
+
+The slash is optional, so this will also work:
+
+## Example 1e
 Values coming from host.
 
 ```html
@@ -70,7 +86,7 @@ Values coming from host.
 </my-custom-element>
 ```
 
-## Example 1e [TODO]
+## Example 1f [TODO]
 
 Value coming from marker
 

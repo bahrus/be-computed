@@ -23,8 +23,14 @@ export function prsFrom(self) {
     const { dependencies } = test;
     const splitDependencies = dependencies.split(',').map(x => x.trim());
     for (const dependency of splitDependencies) {
-        const type = dependency[0];
-        let prop = dependency.substring(1);
+        let type = dependency[0];
+        let prop = dependency;
+        if ('/@$-'.includes(type)) {
+            prop = dependency.substring(1);
+        }
+        else {
+            type = '/';
+        }
         let attr = undefined;
         if (type === '-') {
             attr = '-' + prop;

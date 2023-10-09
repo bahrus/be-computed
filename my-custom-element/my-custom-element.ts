@@ -19,7 +19,7 @@ export class MyCustomElement extends HTMLElement{
         <script nomodule>
             numValue ** 2
         </script>
-        <data itemprop=squared be-computed='from /numValue.'>
+        <data itemprop=squared be-computed='from numValue.'>
         <be-hive></be-hive>
     `;
     }
