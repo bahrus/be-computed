@@ -102,7 +102,7 @@ Value coming from marker
 </form>
 ```
 
-## Example 2a [TODO]
+## Example 2a
 
 ```html
 <form itemscope>
