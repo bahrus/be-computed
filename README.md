@@ -9,6 +9,24 @@
 
 Compute values from other HTML signals via local script tags.
 
+## Special Symbols
+
+In the examples below, we will encounter special symbols used in order to keep the statements small:
+
+| Symbol      | Meaning              | Notes                                                                                |
+|-------------|----------------------|--------------------------------------------------------------------------------------|
+| /propName   |"Hostish"             | Attaches listeners to getters/setters.                                               |
+| @propName   |Name attribute        | Listens for input events.                                                            |
+| $propName   |Itemprop attribute    | If contenteditible, listens for input events.  Otherwise, uses be-value-added.       |
+| #propName   |Id attribute          | Listens for input events.                                                            |
+| -prop-name  |Marker indicates prop | Attaches listeners to getters/setters.                                               |
+
+
+"Hostish" means:
+
+1.  First, do a "closest" for an element with attribute itemscope, where the tag name has a dash in it.  Do that search recursively.  
+2.  If no match found, use getRootNode().host.
+
 ## Example 1a
 
 ```html
