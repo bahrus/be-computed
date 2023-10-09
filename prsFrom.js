@@ -25,7 +25,7 @@ export function prsFrom(self) {
     for (const dependency of splitDependencies) {
         let type = dependency[0];
         let prop = dependency;
-        if ('/@$-'.includes(type)) {
+        if ('/@$-#'.includes(type)) {
             prop = dependency.substring(1);
         }
         else {

@@ -141,7 +141,7 @@ async function evalFormula(self) {
     // if(enhancedElement.localName === 'meta'){
     //     debugger;
     // }
-    if (firstInstruction.isAction) {
+    if (typeof value === 'object') {
         Object.assign(enhancedElement, value);
     }
     else {

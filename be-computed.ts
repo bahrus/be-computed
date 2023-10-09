@@ -147,7 +147,7 @@ async function evalFormula(self: AP){
     // if(enhancedElement.localName === 'meta'){
     //     debugger;
     // }
-    if(firstInstruction.isAction){
+    if(typeof value === 'object'){
         Object.assign(enhancedElement, value);
     }else{
         await setItemProp(enhancedElement, value, enhancedElement.getAttribute('itemprop')!);

@@ -27,7 +27,7 @@ export function prsFrom(self: AP) : PAP {
     for(const dependency of splitDependencies){
         let type = dependency[0] as ElTypes;
         let prop = dependency;
-        if('/@$-'.includes(type)){
+        if('/@$-#'.includes(type)){
             prop = dependency.substring(1);
             
         }else{

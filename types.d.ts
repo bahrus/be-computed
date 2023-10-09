@@ -21,7 +21,7 @@ export interface Arg{
 
 export interface Instruction{
     args?: Array<Arg>;
-    isAction?: boolean,
+    //isAction?: boolean,
 }
 
 

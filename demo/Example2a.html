@@ -8,7 +8,7 @@
         {
             "imports": {
                 "be-enhanced/": "../node_modules/be-enhanced/",
-                "be-exportable/": "../be-exportable/",
+                "be-exportable/": "../node_modules/be-exportable/",
                 "be-hive/":  "../node_modules/be-hive/",
                 "be-intl/": "../node_modules/be-intl/",
                 "be-linked/": "../node_modules/be-linked/",
@@ -30,10 +30,10 @@
                 numValue: liberated.length
             })
         </script>
-        <my-custom-element enh-by-be-pute='Props from #liberated.'></my-custom-element>
+        <my-custom-element enh-by-be-computed='from #liberated.'></my-custom-element>
     </form>
     <script type=module>
-        import '../be-pute.js';
+        import '../be-computed.js';
         import '../my-custom-element/my-custom-element.js';
     </script>
 </body>
