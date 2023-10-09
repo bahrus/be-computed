@@ -34,7 +34,7 @@ Compute values from other HTML signals via local script tags.
 </form>
 ```
 
-## Example 1c [TODO]
+## Example 1c
 
 Add more context to the scripting
 
@@ -55,7 +55,7 @@ Add more context to the scripting
 </form>
 ```
 
-## Example 1d [TODO]
+## Example 1d [WIP]
 
 Values coming from host.
 
