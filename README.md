@@ -1,4 +1,11 @@
-# be-computed [WIP]
+# be-computed
+
+
+<!-- [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/be-switched)  -->
+[![Playwright Tests](https://github.com/bahrus/be-computed/actions/workflows/CI.yml/badge.svg)](https://github.com/bahrus/be-computed/actions/workflows/CI.yml) 
+[![NPM version](https://badge.fury.io/js/be-computed.png)](http://badge.fury.io/js/be-computed)
+[![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-computed?style=for-the-badge)](https://bundlephobia.com/result?p=be-computed)
+<img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-computed?compression=gzip">
 
 Compute values from other HTML signals via local script tags.
 
