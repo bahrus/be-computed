@@ -86,7 +86,7 @@ Values coming from host.
 </my-custom-element>
 ```
 
-## Example 1f [TODO]
+## Example 1f
 
 Value coming from marker
 
