@@ -8,6 +8,7 @@ import {findRealm} from 'trans-render/lib/findRealm.js';
 import {BVAAllProps} from 'be-value-added/types';
 import {setItemProp} from 'be-linked/setItemProp.js';
 import {getSignalVal} from 'be-linked/getSignalVal.js';
+import {getSignal} from 'be-linked/getSignal.js';
 import {Actions as BPActions} from 'be-propagating/types';
 
 const cache = new Map<string, {}>();
@@ -56,70 +57,12 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
         const args = instructions![0].args;
         for(const arg of args!){
             const {prop, type, attr} = arg;
-            switch(type){
-                //TODO:  common code with be-switched -- move to be-linked
-                case '$':{
-                    const itemPropEl = await findRealm(enhancedElement, ['wis', prop!]) as HTMLElement;
-                    if(!itemPropEl) throw 404;
-                    if(itemPropEl.hasAttribute('contenteditable')){
-                        throw 'NI'
-                    }else{
-                        import('be-value-added/be-value-added.js');
-                        const beValueAdded = await  (<any>itemPropEl).beEnhanced.whenResolved('be-value-added') as BVAAllProps & EventTarget;
-                        arg.signal = new WeakRef<BVAAllProps>(beValueAdded);
-                        beValueAdded.addEventListener('value-changed', e => {
-                            evalFormula(self);
-                        });
-                    }
-                    break;
-                }
-                case '@':{
-                    const inputEl = await findRealm(enhancedElement, ['wf', prop!]) as HTMLInputElement;
-                    if(!inputEl) throw 404;
-                    arg.signal = new WeakRef(inputEl);
-                    inputEl.addEventListener('input', e => {
-                        evalFormula(self);
-                    });
-                    break;
-                }
-                case '#':{
-                    const inputEl = await findRealm(enhancedElement, ['wrn', '#' + prop!]) as HTMLInputElement;
-                    if(!inputEl) throw 404;
-                    arg.signal = new WeakRef(inputEl);
-                    inputEl.addEventListener('input', e => {
-                        evalFormula(self);
-                    });
-                    break;
-                }
-                case '/': {
-                    const host = await findRealm(enhancedElement, 'hostish');
-                    if(!host) throw 404;
-                    import('be-propagating/be-propagating.js');
-                    //console.log('enhance with be-propagating');
-                    const bePropagating = await (<any>host).beEnhanced.whenResolved('be-propagating') as BPActions;
-                    //console.log('attached be-propagating');
-                    const signal = await bePropagating.getSignal(prop!);
-                    arg.signal = new WeakRef(signal);
-                    signal.addEventListener('value-changed', e => {
-                        evalFormula(self);
-                    });
-                    break;
-                }
-                case '-': {
-                    const el = await findRealm(enhancedElement, ['upSearch', `[${attr!}]`]);
-                    if(!el) throw 404;
-                    import('be-propagating/be-propagating.js');
-                    //console.log('enhance with be-propagating', el);
-                    const bePropagating = await (<any>el).beEnhanced.whenResolved('be-propagating') as BPActions;
-                    //console.log('attached be-propagating');
-                    const signal = await bePropagating.getSignal(prop!);
-                    arg.signal = new WeakRef(signal);
-                    signal.addEventListener('value-changed', e => {
-                        evalFormula(self);
-                    });
-                    break;
-                }
-            }
+            const signalRefs = await getSignal(enhancedElement, type!, prop!, attr);
+            const {ref, eventType} = signalRefs;
+            arg.signal = ref;
+            signalRefs.signal.addEventListener(eventType, e => {
+                evalFormula(self);
+            });
         }
         evalFormula(self);
     }

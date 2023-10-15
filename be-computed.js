@@ -1,9 +1,9 @@
 import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
-import { findRealm } from 'trans-render/lib/findRealm.js';
 import { setItemProp } from 'be-linked/setItemProp.js';
 import { getSignalVal } from 'be-linked/getSignalVal.js';
+import { getSignal } from 'be-linked/getSignal.js';
 const cache = new Map();
 const prsOnValuesCache = new Map();
 const prsOnActionsCache = new Map();
@@ -47,76 +47,12 @@ export class BeComputed extends BE {
         const args = instructions[0].args;
         for (const arg of args) {
             const { prop, type, attr } = arg;
-            switch (type) {
-                //TODO:  common code with be-switched -- move to be-linked
-                case '$': {
-                    const itemPropEl = await findRealm(enhancedElement, ['wis', prop]);
-                    if (!itemPropEl)
-                        throw 404;
-                    if (itemPropEl.hasAttribute('contenteditable')) {
-                        throw 'NI';
-                    }
-                    else {
-                        import('be-value-added/be-value-added.js');
-                        const beValueAdded = await itemPropEl.beEnhanced.whenResolved('be-value-added');
-                        arg.signal = new WeakRef(beValueAdded);
-                        beValueAdded.addEventListener('value-changed', e => {
-                            evalFormula(self);
-                        });
-                    }
-                    break;
-                }
-                case '@': {
-                    const inputEl = await findRealm(enhancedElement, ['wf', prop]);
-                    if (!inputEl)
-                        throw 404;
-                    arg.signal = new WeakRef(inputEl);
-                    inputEl.addEventListener('input', e => {
-                        evalFormula(self);
-                    });
-                    break;
-                }
-                case '#': {
-                    const inputEl = await findRealm(enhancedElement, ['wrn', '#' + prop]);
-                    if (!inputEl)
-                        throw 404;
-                    arg.signal = new WeakRef(inputEl);
-                    inputEl.addEventListener('input', e => {
-                        evalFormula(self);
-                    });
-                    break;
-                }
-                case '/': {
-                    const host = await findRealm(enhancedElement, 'hostish');
-                    if (!host)
-                        throw 404;
-                    import('be-propagating/be-propagating.js');
-                    //console.log('enhance with be-propagating');
-                    const bePropagating = await host.beEnhanced.whenResolved('be-propagating');
-                    //console.log('attached be-propagating');
-                    const signal = await bePropagating.getSignal(prop);
-                    arg.signal = new WeakRef(signal);
-                    signal.addEventListener('value-changed', e => {
-                        evalFormula(self);
-                    });
-                    break;
-                }
-                case '-': {
-                    const el = await findRealm(enhancedElement, ['upSearch', `[${attr}]`]);
-                    if (!el)
-                        throw 404;
-                    import('be-propagating/be-propagating.js');
-                    //console.log('enhance with be-propagating', el);
-                    const bePropagating = await el.beEnhanced.whenResolved('be-propagating');
-                    //console.log('attached be-propagating');
-                    const signal = await bePropagating.getSignal(prop);
-                    arg.signal = new WeakRef(signal);
-                    signal.addEventListener('value-changed', e => {
-                        evalFormula(self);
-                    });
-                    break;
-                }
-            }
+            const signalRefs = await getSignal(enhancedElement, type, prop, attr);
+            const { ref, eventType } = signalRefs;
+            arg.signal = ref;
+            signalRefs.signal.addEventListener(eventType, e => {
+                evalFormula(self);
+            });
         }
         evalFormula(self);
     }
