@@ -11,7 +11,11 @@ export class MyCustomElement extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
     }
+    disconnectedCallback() {
+        console.log('disconnected');
+    }
     connectedCallback() {
+        console.log('connected');
         this.shadowRoot.innerHTML = String.raw `
         <div id=target2></div>
         <script nomodule>

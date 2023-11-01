@@ -1,4 +1,4 @@
-# be-computed
+# be-computed [WIP]
 
 
 <!-- [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/be-switched)  -->
@@ -27,7 +27,20 @@ In the examples below, we will encounter special symbols used in order to keep t
 1.  First, do a "closest" for an element with attribute itemscope, where the tag name has a dash in it.  Do that search recursively.  
 2.  If no match found, use getRootNode().host.
 
-## Example 1a
+## Example 1a -- compact notation [TODO]
+
+```html
+<div itemscope>
+    <link itemprop=isHappy>
+    <link itemprop=isWealthy>
+
+    ...
+    
+    <link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy.' onchange="isHappy && !isWealthy">
+</div>
+```
+
+## Example 1b
 
 ```html
 <div itemscope>
@@ -43,7 +56,7 @@ In the examples below, we will encounter special symbols used in order to keep t
 </div>
 ```
 
-## Example 1b
+## Example 1c
 
 ```html
 <form itemscope>
@@ -59,7 +72,7 @@ In the examples below, we will encounter special symbols used in order to keep t
 </form>
 ```
 
-## Example 1c
+## Example 1d
 
 Add more context to the scripting
 
@@ -80,7 +93,7 @@ Add more context to the scripting
 </form>
 ```
 
-## Example 1d
+## Example 1e
 
 Values coming from host.
 
@@ -97,7 +110,7 @@ Values coming from host.
 
 The slash is optional, so this will also work:
 
-## Example 1e
+## Example 1f
 Values coming from host.
 
 ```html
@@ -111,7 +124,7 @@ Values coming from host.
 </my-custom-element>
 ```
 
-## Example 1f
+## Example 1g
 
 Value coming from marker
 
