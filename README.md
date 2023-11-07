@@ -36,8 +36,8 @@ In the examples below, we will encounter special symbols used in order to keep t
 
     ...
     
-    <link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy via onload.' 
-        onload="isHappy && !isWealthy">
+    <link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy via onload script.' 
+        onload="return isHappy && !isWealthy">
 </div>
 ```
 
