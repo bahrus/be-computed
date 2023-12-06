@@ -9,6 +9,8 @@
 
 Compute values from other HTML signals via local script tags.
 
+be-computed is very close in purpose to be-overloading.  be-overloading focuses more on event driven reactions (including the "onload" pseudo-event).  be-computed is more focused on observing peer elements (and/or the host) and calculating values based on these dependencies. 
+
 ## Special Symbols
 
 In the examples below, we will encounter special symbols used in order to keep the statements small:
@@ -95,7 +97,7 @@ Advantages of using script element -- less issues with characters that cause pro
 </form>
 ```
 
-## Example 1d
+## Example 1d [TODO]
 
 Add more context to the scripting
 
@@ -107,14 +109,45 @@ Add more context to the scripting
     ...
 
     <script nomodule>
-        ({isHappy, isWealthy, liberated}) => {
-            console.log({isHappy, isWealthy, liberated});
-            return isHappy && !isWealthy && liberated.length > 17;
-        }
+
     </script>
-    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'>
+    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated per onload.'
+        onload="
+            ({isHappy, isWealthy, liberated}) => {
+                console.log({isHappy, isWealthy, liberated});
+                return isHappy && !isWealthy && liberated.length > 17;
+            }
+        "
+    >
 </form>
 ```
+
+## Example 1e [TODO]
+
+Specify export symbol
+
+```html
+<form itemscope>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <input type=checkbox name=isWealthy>
+    <div contenteditable id=liberated>abc</div>
+    ...
+
+    <script nomodule>
+
+    </script>
+    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated per onload.'
+        onload="
+            export const calculateInNirvana = ({isHappy, isWealthy, liberated}) => {
+                console.log({isHappy, isWealthy, liberated});
+                return isHappy && !isWealthy && liberated.length > 17;
+            }
+        "
+    >
+</form>
+```
+
+Since the expression starts with open parenthesis, wrapping is more lightweight.  Just adds export const default.
 
 ## Example 1e
 
@@ -181,6 +214,8 @@ Value coming from marker
     <any-element itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'></any-element>
 </form>
 ```
+
+[TODO] be-linked extends trans-render to support signals
 
 ## Viewing Your Element Locally
 
