@@ -46,18 +46,18 @@ What this does:
 1.  Since the onload doesn't start with export const ..., and doesn't start with an open parenthesis, wraps expression inside onload with:
 
 ```JavaScript
-export const default = ({isHappy, isWeathy}) => {
-    return isHappy && !isWeathy;
+export const default = ({isHappy, isWealthy}) => {
+    return isHappy && !isWealthy;
 }
 ```
 
-2.  Since the return statement, it applies the value to the adorned element, based on context.  In this case, it sets:
+2.  Since the return statement returns a primitive, it applies the value to the adorned element, based on context.  In this case, it sets:
 
 ```html
 <link itemprop=isInNirvana href=https://schema.org/True>
 ```
 
-if the conditions are met.
+if the conditions are met, and attaches the be-value-added enhancement.
 
 The value of the computation can be obtained via oLink.beEnhanced.beValueAdded.value.
 
@@ -77,6 +77,10 @@ The value of the computation can be obtained via oLink.beEnhanced.beValueAdded.v
 </div>
 ```
 
+Since no "per onload" is specified, searches for previous script element.
+
+Advantages of using script element -- less issues with characters that cause problems inside an attribute, may get better IDE support.  Disadvantages -- a little further away, a little more verbose, if you need to move the element, need to remember to move the associated script element along with it.
+
 ## Example 1c [TODO]
 
 ```html
@@ -85,12 +89,8 @@ The value of the computation can be obtained via oLink.beEnhanced.beValueAdded.v
     <input type=checkbox name=isWealthy>
     <div contenteditable id=liberated>abc</div>
     ...
-
-    <script nomodule>
-        isHappy && !isWealthy && liberated.length > 17
-    </script>
-    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'
-      onload=""
+    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated per onload.'
+      onload="isHappy && !isWealthy && liberated.length > 17"
     >
 </form>
 ```
