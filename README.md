@@ -215,6 +215,28 @@ Value coming from marker
 </form>
 ```
 
+## Example 3a [TODO] Support for inner transform
+
+
+```html
+<div itemscope>
+    <link itemprop=isHappy>
+    <link itemprop=isWealthy>
+
+    ...
+    
+    <div be-computed='from $isHappy, $isWealthy per onload piped through data-xform.' 
+        onload="{isInNirvana: isHappy && isWealthy}"
+        data-xform='{
+            "span": "isInNirvana"
+        }'
+        >
+        <span></span>
+    </div>
+</div>
+```
+
+
 [TODO] be-linked extends trans-render to support signals
 
 ## Viewing Your Element Locally
