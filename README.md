@@ -236,6 +236,28 @@ Value coming from marker
 </div>
 ```
 
+## Example 3b [TODO] Support for inner transform
+
+
+```html
+<div itemscope>
+    <link itemprop=isHappy>
+    <link itemprop=isWealthy>
+
+    ...
+    
+    <div be-computed='from $isHappy, $isWealthy piped through data-xform.' 
+        data-xform='{
+            "span": "isHappy",
+            "article": "isWealthy"
+        }'
+        >
+        <span></span>
+        <article></article>
+    </div>
+</div>
+```
+
 
 [TODO] be-linked extends trans-render to support signals
 
