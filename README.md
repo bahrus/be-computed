@@ -36,10 +36,30 @@ In the examples below, we will encounter special symbols used in order to keep t
 
     ...
     
-    <link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy via onload script.' 
-        onload="return isHappy && !isWealthy">
+    <link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy per onload.' 
+        onload="isHappy && !isWealthy">
 </div>
 ```
+
+What this does:
+
+1.  Since the onload doesn't start with export const ..., and doesn't start with an open parenthesis, wraps expression inside onload with:
+
+```JavaScript
+export const default = ({isHappy, isWeathy}) => {
+    return isHappy && !isWeathy;
+}
+```
+
+2.  Since the return statement, it applies the value to the adorned element, based on context.  In this case, it sets:
+
+```html
+<link itemprop=isInNirvana href=https://schema.org/True>
+```
+
+if the conditions are met.
+
+The value of the computation can be obtained via oLink.beEnhanced.beValueAdded.value.
 
 ## Example 1b
 
@@ -57,7 +77,7 @@ In the examples below, we will encounter special symbols used in order to keep t
 </div>
 ```
 
-## Example 1c
+## Example 1c [TODO]
 
 ```html
 <form itemscope>
@@ -69,7 +89,9 @@ In the examples below, we will encounter special symbols used in order to keep t
     <script nomodule>
         isHappy && !isWealthy && liberated.length > 17
     </script>
-    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'>
+    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'
+      onload=""
+    >
 </form>
 ```
 
