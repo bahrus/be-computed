@@ -29,16 +29,16 @@ In the examples below, we will encounter special symbols used in order to keep t
 1.  First, do a "closest" for an element with attribute itemscope, where the tag name has a dash in it.  Do that search recursively.  
 2.  If no match found, use getRootNode().host.
 
-## Example 1a -- compact notation [TODO]
+## Example 1a -- Locality of behavior notation with inline expression [TODO]
 
 ```html
 <div itemscope>
-    <link itemprop=isHappy>
-    <link itemprop=isWealthy>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <link itemprop=isWealthy href=https://schema.org/False>
 
     ...
     
-    <link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy per onload.' 
+    <link itemprop=isInNirvana be-computed='from onload expression, passing in $isHappy, $isWealthy.' 
         onload="isHappy && !isWealthy">
 </div>
 ```
@@ -63,12 +63,44 @@ if the conditions are met, and attaches the be-value-added enhancement.
 
 The value of the computation can be obtained via oLink.beEnhanced.beValueAdded.value.
 
-## Example 1b
+## Example 1b -- Verbose notation with external script tag [TODO]
 
 ```html
 <div itemscope>
-    <link itemprop=isHappy>
-    <link itemprop=isWealthy>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <link itemprop=isWealthy href=https://schema.org/False>
+
+    ...
+
+    <script nomodule>
+        isHappy && !isWealthy
+    </script>
+    <link itemprop=isInNirvana be-computed='from previous script element expression, passing in $isHappy, $isWealthy.'>
+</div>
+```
+
+Advantages of using script element -- less issues with characters that cause problems inside an attribute, may get better IDE support.  Disadvantages -- a little further away, a little more verbose, if you need to move the element, need to remember to move the associated script element along with it.
+
+## Example 1c -- compact notation with inline expression [TODO]
+
+```html
+<div itemscope>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <link itemprop=isWealthy href=https://schema.org/False>
+
+    ...
+    
+    <link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy.' 
+        onload="isHappy && !isWealthy">
+</div>
+```
+
+## Example 1d -- compact notation with external script tag [TODO]
+
+```html
+<div itemscope>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <link itemprop=isWealthy href=https://schema.org/False>
 
     ...
 
@@ -79,11 +111,7 @@ The value of the computation can be obtained via oLink.beEnhanced.beValueAdded.v
 </div>
 ```
 
-Since no "per onload" is specified, searches for previous script element.
-
-Advantages of using script element -- less issues with characters that cause problems inside an attribute, may get better IDE support.  Disadvantages -- a little further away, a little more verbose, if you need to move the element, need to remember to move the associated script element along with it.
-
-## Example 1c [TODO]
+## Example 1e -- bind to named elements and id'd elements [TODO]
 
 ```html
 <form itemscope>
@@ -91,15 +119,14 @@ Advantages of using script element -- less issues with characters that cause pro
     <input type=checkbox name=isWealthy>
     <div contenteditable id=liberated>abc</div>
     ...
-    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated per onload.'
+    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'
       onload="isHappy && !isWealthy && liberated.length > 17"
     >
 </form>
 ```
 
-## Example 1d [TODO]
+## Example 1f -- Add more context to the scripting [TODO]
 
-Add more context to the scripting
 
 ```html
 <form itemscope>
@@ -111,7 +138,7 @@ Add more context to the scripting
     <script nomodule>
 
     </script>
-    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated per onload.'
+    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'
         onload="
             ({isHappy, isWealthy, liberated}) => {
                 console.log({isHappy, isWealthy, liberated});
@@ -121,6 +148,8 @@ Add more context to the scripting
     >
 </form>
 ```
+
+Since the expression starts with open parenthesis, wrapping is more lightweight.  Just adds export const default.
 
 ## Example 1e [TODO]
 
@@ -136,7 +165,7 @@ Specify export symbol
     <script nomodule>
 
     </script>
-    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated per onload.'
+    <link itemprop=isInNirvana be-computed='from onload export of calculateInNirvana, passing in $isHappy, @isWealthy, #liberated.'
         onload="
             export const calculateInNirvana = ({isHappy, isWealthy, liberated}) => {
                 console.log({isHappy, isWealthy, liberated});
@@ -147,7 +176,8 @@ Specify export symbol
 </form>
 ```
 
-Since the expression starts with open parenthesis, wrapping is more lightweight.  Just adds export const default.
+This allows for multiple expressions that can be used by different enhancements.
+
 
 ## Example 1e
 
@@ -220,12 +250,12 @@ Value coming from marker
 
 ```html
 <div itemscope>
-    <link itemprop=isHappy>
-    <link itemprop=isWealthy>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <link itemprop=isWealthy href=https://schema.org/False>
 
     ...
     
-    <div be-computed='from $isHappy, $isWealthy per onload piped through data-xform.' 
+    <div be-computed='from onload expression, passing in $isHappy, $isWealthy, followed by data-xform transform.' 
         onload="{isInNirvana: isHappy && isWealthy}"
         data-xform='{
             "span": "isInNirvana"
@@ -246,7 +276,7 @@ Value coming from marker
 
     ...
     
-    <div be-computed='from $isHappy, $isWealthy piped through data-xform.' 
+    <div be-computed='apply data-xform transform on $isHappy, $isWealthy.' 
         data-xform='{
             "span": "isHappy",
             "article": "isWealthy"
