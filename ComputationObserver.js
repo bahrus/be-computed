@@ -1,6 +1,7 @@
 import { getLocalSignal } from "be-linked/defaults.js";
 import { getRemoteEl } from "be-linked/getRemoteEl.js";
 import { Observer } from "be-observant/Observer.js";
+import { setSignalVal } from 'be-linked/setSignalVal.js';
 export class ComputationObserver {
     expr;
     fromStatement;
@@ -14,6 +15,8 @@ export class ComputationObserver {
     }
     #noOfArgs;
     #abortControllers = [];
+    #localProp;
+    #localSignal;
     disconnect() {
         for (const ac of this.#abortControllers) {
             ac.abort();
@@ -30,9 +33,6 @@ export class ComputationObserver {
             this.#args.push(observeRule);
             let { localProp, transformAttr, remoteProp, remoteType } = arg;
             if (localProp === undefined && transformAttr === undefined) {
-                const signal = await getLocalSignal(enhancedElement);
-                observeRule.localProp = signal.prop;
-                observeRule.localSignal = signal.signal;
             }
             const remoteEl = await getRemoteEl(enhancedElement, remoteType, remoteProp);
             const observerOptions = {
@@ -55,6 +55,12 @@ export class ComputationObserver {
         }
         const result = await this.expr(vm);
         console.log({ observe, result });
+        if (this.#localSignal === undefined) {
+            const signal = await getLocalSignal(this.enhancedElement);
+            this.#localProp = signal.prop;
+            this.#localSignal = signal.signal;
+        }
+        setSignalVal(this.#localSignal, result);
     };
     #args = [];
 }

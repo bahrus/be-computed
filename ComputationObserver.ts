@@ -4,6 +4,8 @@ import { getLocalSignal } from "be-linked/defaults.js";
 import { getRemoteEl } from "be-linked/getRemoteEl.js";
 import { Observer } from "be-observant/Observer.js";
 import { BeComputed } from "./be-computed.js";
+import {setSignalVal} from 'be-linked/setSignalVal.js';
+import { SignalRefType } from "be-linked/types";
 
 export class ComputationObserver{
     constructor(
@@ -18,6 +20,8 @@ export class ComputationObserver{
     }
     #noOfArgs: number;
     #abortControllers: Array<AbortController>  = [];
+    #localProp: string | undefined;
+    #localSignal: SignalRefType | undefined;
     disconnect(){
         for(const ac of this.#abortControllers){
             ac.abort();
@@ -29,6 +33,7 @@ export class ComputationObserver{
         enhancedElement: Element,
         enhancementInstance: BeComputed
         ){
+            
         const callback = this.handleObserveCallback;
         for(const arg of args){
             const observeRule: Arg = {
@@ -38,9 +43,7 @@ export class ComputationObserver{
             this.#args.push(observeRule);
             let {localProp, transformAttr, remoteProp, remoteType} = arg;
             if(localProp === undefined && transformAttr === undefined){
-                const signal = await getLocalSignal(enhancedElement);
-                observeRule.localProp = signal.prop;
-                observeRule.localSignal = signal.signal;
+                
             }
             const remoteEl = await getRemoteEl(enhancedElement, remoteType, remoteProp);
             const observerOptions: ObserverOptions = {
@@ -63,6 +66,13 @@ export class ComputationObserver{
         }
         const result = await this.expr(vm);
         console.log({observe, result});
+        if(this.#localSignal === undefined){
+            const signal = await getLocalSignal(this.enhancedElement);
+            this.#localProp = signal.prop;
+            this.#localSignal = signal.signal;
+        }
+        
+        setSignalVal(this.#localSignal, result);
     }
 
     #args: Array<Arg> = [];
