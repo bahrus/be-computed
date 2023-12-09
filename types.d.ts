@@ -4,6 +4,7 @@ import {Target, Scope, ProxyPropChangeInfo} from 'trans-render/lib/types';
 //import {BVAAllProps} from 'be-value-added/types';
 //import {AP as BPAP, ISignal, Actions as BPActions} from 'be-propagating/types';
 import {ElTypes, SignalRefType} from 'be-linked/types';
+import {ObserveRule} from 'be-observant/types';
 
 export interface EndUserProps extends IBE{
     from?: Array<ValueStatement>;
@@ -12,10 +13,8 @@ export interface EndUserProps extends IBE{
     nameOfExport?: string,
 }
 
-export interface Arg{
-    remoteProp?: string,
+export interface Arg extends ObserveRule{
     attr?: string,
-    type?: ElTypes,
     signal?: WeakRef<SignalRefType>,
 }
 

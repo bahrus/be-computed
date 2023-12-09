@@ -25,22 +25,22 @@ export function prsFrom(self: AP) : PAP {
         const splitDependencies = dependencies!.split(',').map(x => x.trim());
         const args: Array<Arg> = [];
         for(const dependency of splitDependencies){
-            let type = dependency[0] as ElTypes;
+            let remoteType = dependency[0] as ElTypes;
             let remoteProp = dependency;
-            if('/@$-#'.includes(type)){
+            if('/@$-#'.includes(remoteType)){
                 remoteProp = dependency.substring(1);
                 
             }else{
-                type = '/';
+                remoteType = '/';
             }
             
             let attr: string | undefined = undefined;
-            if(type === '-'){
+            if(remoteType === '-'){
                 attr = '-' + remoteProp;
                 remoteProp = lispToCamel(remoteProp);
             }
             const arg: Arg = {
-                type,
+                remoteType,
                 remoteProp,
                 attr,
             };
