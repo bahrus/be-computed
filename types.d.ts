@@ -19,10 +19,10 @@ export interface Arg{
     signal?: WeakRef<SignalRefType>,
 }
 
-export interface Instruction{
-    args?: Array<Arg>;
-    //isAction?: boolean,
-}
+// export interface Instruction{
+//     args?: Array<Arg>;
+//     //isAction?: boolean,
+// }
 
 
 // //copied from be-switched.  share from ... where?
@@ -31,7 +31,8 @@ export interface Instruction{
 export interface AllProps extends EndUserProps{
     isParsed?: boolean;
     evaluate?: (vals: any) => any;
-    instructions?: Array<Instruction>;
+    fromStatements?: Array<FromStatement>;
+    //instructions?: Array<Instruction>;
 }
 
 export type ValueStatement = string;
@@ -48,12 +49,14 @@ export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>];
 
 export interface Actions{
     onFrom(self: this): ProPAP;
-    importSymbols(self: this): ProPAP;
+    //importSymbols(self: this): ProPAP;
     observe(self: this): Promise<void>;
 }
 
-export interface ParsedValueStatement{
+export interface FromStatement{
+    attr?: string,
     dependencies?: string,
+    args?: Array<Arg>
 }
 
 export interface ParsedActionStatement{

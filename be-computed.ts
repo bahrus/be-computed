@@ -121,11 +121,11 @@ const xe = new XE<AP, Actions>({
             onFrom: {
                 ifAllOf: ['isParsed', 'from'],
             },
-            importSymbols: {
-                ifAllOf: ['isParsed', 'nameOfExport', 'instructions', 'scriptRef']
-            },
+            // importSymbols: {
+            //     ifAllOf: ['isParsed', 'nameOfExport', 'instructions', 'scriptRef']
+            // },
             observe:{
-                ifAllOf: ['evaluate', 'instructions']
+                ifAllOf: ['fromStatements']
             }
         }
    },

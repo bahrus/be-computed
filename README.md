@@ -1,4 +1,4 @@
-# be-computed [WIP]
+# be-computed [TODO]
 
 
 <!-- [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/be-switched)  -->
@@ -38,8 +38,10 @@ In the examples below, we will encounter special symbols used in order to keep t
 
     ...
     
-    <link itemprop=isInNirvana be-computed='from onload expression, passing in $isHappy, $isWealthy.' 
-        onload="isHappy && !isWealthy">
+    <link itemprop=isInNirvana 
+        onload="isHappy && !isWealthy"
+        be-computed='from onload expression, passing in $isHappy, $isWealthy.' 
+    >
 </div>
 ```
 
@@ -90,8 +92,9 @@ Advantages of using script element -- less issues with characters that cause pro
 
     ...
     
-    <link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy.' 
-        onload="isHappy && !isWealthy">
+    <link itemprop=isInNirvana onload="isHappy && !isWealthy" 
+        be-computed='from $isHappy, $isWealthy.' 
+    >
 </div>
 ```
 
@@ -119,8 +122,9 @@ Advantages of using script element -- less issues with characters that cause pro
     <input type=checkbox name=isWealthy>
     <div contenteditable id=liberated>abc</div>
     ...
-    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'
+    <link itemprop=isInNirvana
       onload="isHappy && !isWealthy && liberated.length > 17"
+      be-computed='from $isHappy, @isWealthy, #liberated.'
     >
 </form>
 ```
@@ -138,20 +142,21 @@ Advantages of using script element -- less issues with characters that cause pro
     <script nomodule>
 
     </script>
-    <link itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'
+    <link itemprop=isInNirvana 
         onload="
             ({isHappy, isWealthy, liberated}) => {
                 console.log({isHappy, isWealthy, liberated});
                 return isHappy && !isWealthy && liberated.length > 17;
             }
         "
+        be-computed='from $isHappy, @isWealthy, #liberated.'
     >
 </form>
 ```
 
 Since the expression starts with open parenthesis, wrapping is more lightweight.  Just adds export const default.
 
-## Example 1e [TODO]
+## Example 1g [TODO]
 
 Specify export symbol
 
@@ -165,13 +170,14 @@ Specify export symbol
     <script nomodule>
 
     </script>
-    <link itemprop=isInNirvana be-computed='from onload export of calculateInNirvana, passing in $isHappy, @isWealthy, #liberated.'
+    <link itemprop=isInNirvana 
         onload="
             export const calculateInNirvana = ({isHappy, isWealthy, liberated}) => {
                 console.log({isHappy, isWealthy, liberated});
                 return isHappy && !isWealthy && liberated.length > 17;
             }
         "
+        be-computed='from onload export of calculateInNirvana, passing in $isHappy, @isWealthy, #liberated.'
     >
 </form>
 ```
@@ -179,9 +185,7 @@ Specify export symbol
 This allows for multiple expressions that can be used by different enhancements.
 
 
-## Example 1e
-
-Values coming from host.
+## Example 1h -- Values coming from host.
 
 ```html
 <my-custom-element>
@@ -196,8 +200,7 @@ Values coming from host.
 
 The slash is optional, so this will also work:
 
-## Example 1f
-Values coming from host.
+## Example 1i -- Values coming from host, take II.
 
 ```html
 <my-custom-element>
@@ -210,7 +213,7 @@ Values coming from host.
 </my-custom-element>
 ```
 
-## Example 1g
+## Example 1j
 
 Value coming from marker
 
