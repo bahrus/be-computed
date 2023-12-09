@@ -62,7 +62,7 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
             if(args === undefined) throw 'NI';
             const attrVal = enhancedElement.getAttribute(attr);
             if(attrVal === null) throw 404;
-            const rewritten = rewrite(attrVal, args.map(x => x.prop!));
+            const rewritten = rewrite(attrVal, args.map(x => x.remoteProp!));
             const parsedJavaScript = await parse(rewritten);
             console.log({parsedJavaScript});
         }
