@@ -55,10 +55,10 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
     async hydrate(self: this){
         const {fromStatements, enhancedElement} = self;
         for(const fromStatement of fromStatements!){
-            const {attr, args} = fromStatement;
-            if(attr === undefined) throw 'NI';
+            const {attrContainingExpression, args} = fromStatement;
+            if(attrContainingExpression === undefined) throw 'NI';
             if(args === undefined) throw 'NI';
-            const attrVal = enhancedElement.getAttribute(attr);
+            const attrVal = enhancedElement.getAttribute(attrContainingExpression);
             if(attrVal === null) throw 404;
             const rewritten = rewrite(attrVal, args.map(x => x.remoteProp!));
             const parsedJavaScript = await parse(rewritten);
