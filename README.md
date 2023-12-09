@@ -65,7 +65,7 @@ if the conditions are met, and attaches the [be-value-added](https://github.com/
 
 The value of the computation can be obtained via oLink.beEnhanced.beValueAdded.value.
 
-## Example 1b -- Verbose notation with external script tag [TODO]
+## Example 1b -- Verbose notation with external script tag
 
 ```html
 <div itemscope>
