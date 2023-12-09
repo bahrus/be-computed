@@ -45,7 +45,16 @@ export class ComputationObserver {
     handleObserveCallback = async (observe, val) => {
         if (this.#abortControllers.length !== this.#noOfArgs)
             return;
-        console.log({ observe });
+        if (observe.lastVal === val)
+            return;
+        observe.lastVal = val;
+        const vm = {};
+        for (const observer of this.#args) {
+            const { lastVal, remoteProp } = observer;
+            vm[remoteProp] = lastVal;
+        }
+        const result = await this.expr(vm);
+        console.log({ observe, result });
     };
     #args = [];
 }
