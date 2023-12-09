@@ -9,8 +9,10 @@ export class ComputationObserver {
         this.expr = expr;
         this.fromStatement = fromStatement;
         this.enhancedElement = enhancedElement;
-        this.#hydrate(expr, fromStatement, args, enhancedElement, enhancementInstance);
+        this.#noOfArgs = args.length;
+        this.#hydrate(args, enhancedElement, enhancementInstance);
     }
+    #noOfArgs;
     #abortControllers = [];
     disconnect() {
         for (const ac of this.#abortControllers) {
@@ -18,7 +20,7 @@ export class ComputationObserver {
         }
         this.#abortControllers = [];
     }
-    async #hydrate(expr, fromStatement, args, enhancedElement, enhancementInstance) {
+    async #hydrate(args, enhancedElement, enhancementInstance) {
         const callback = this.handleObserveCallback;
         for (const arg of args) {
             const observeRule = {
@@ -41,6 +43,8 @@ export class ComputationObserver {
         }
     }
     handleObserveCallback = async (observe, val) => {
+        if (this.#abortControllers.length !== this.#noOfArgs)
+            return;
         console.log({ observe });
     };
     #args = [];
