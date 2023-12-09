@@ -1,4 +1,4 @@
-# be-computed [TODO]
+# be-computed [WIP]
 
 
 <!-- [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/be-switched)  -->
@@ -9,11 +9,11 @@
 
 Compute values from other HTML signals via local script tags.
 
-be-computed is very close in purpose to be-overloading.  be-overloading focuses more on event driven reactions (including the "onload" pseudo-event).  be-computed is more focused on observing peer elements (and/or the host) and calculating values based on these dependencies. 
+*be-computed* is very close in purpose to [be-overloading](https://github.com/bahrus/be-overloading).  *be-overloading* focuses more on user-initiated event driven reactions.  *be-computed* is more focused on observing peer elements (and/or the host) and calculating values based on these dependencies reactively. 
 
 ## Special Symbols
 
-In the examples below, we will encounter special symbols used in order to keep the statements small, as far as identifying which elements to pull in property values, and observing those elements for property value changes:
+In the examples below, we will encounter special symbols used in order to keep the statements small, as far as identifying which elements to pull in property values from, and observing those elements for property value changes:
 
 | Symbol      | Meaning              | Notes                                                                                                                                       |
 |-------------|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
@@ -61,7 +61,7 @@ export const expr = ({isHappy, isWealthy}) => {
 <link itemprop=isInNirvana href=https://schema.org/True>
 ```
 
-if the conditions are met, and attaches the be-value-added enhancement.
+if the conditions are met, and attaches the [be-value-added](https://github.com/bahrus/be-value-added) enhancement.
 
 The value of the computation can be obtained via oLink.beEnhanced.beValueAdded.value.
 

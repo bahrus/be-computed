@@ -1,10 +1,10 @@
-import {AP, ProPAP, PAP, FromStatement, Arg} from './types';
+import {AP, ProPAP, PAP, ComputeStatement, Arg} from './types';
 import {ElTypes} from 'be-linked/types';
 import {RegExpOrRegExpExt} from 'be-enhanced/types';
 import {arr, tryParse} from 'be-enhanced/cpu.js';
 import {lispToCamel} from 'trans-render/lib/lispToCamel.js';
 
-const reValueStatement: RegExpOrRegExpExt<FromStatement>[] = [
+const reValueStatement: RegExpOrRegExpExt<ComputeStatement>[] = [
     {
         regExp: new RegExp(String.raw  `^(?<attr>[\w]+)(?<!\\)Expression,PassingIn(?<dependencies>.*)`),
         defaultVals: {}
@@ -19,7 +19,7 @@ export function prsFrom(self: AP) : PAP {
     let {from, fromStatements} = self;
     if(fromStatements === undefined) fromStatements = [];
     for(const fromStatementString of from!){
-        const fromStatement = tryParse(fromStatementString, reValueStatement) as FromStatement;
+        const fromStatement = tryParse(fromStatementString, reValueStatement) as ComputeStatement;
         if(fromStatement === null) throw 'PE'; //Parse Error
         const {dependencies} = fromStatement;
         const splitDependencies = dependencies!.split(',').map(x => x.trim());

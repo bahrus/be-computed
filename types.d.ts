@@ -21,25 +21,15 @@ export interface Arg extends ObserveRule{
 
 
 
-// export interface Instruction{
-//     args?: Array<Arg>;
-//     //isAction?: boolean,
-// }
-
-
-// //copied from be-switched.  share from ... where?
-// export type SignalRefType = BVAAllProps | ISignal | HTMLElement;
 
 export interface AllProps extends EndUserProps{
     isParsed?: boolean;
     evaluate?: (vals: any) => any;
-    fromStatements?: Array<FromStatement>;
-    //instructions?: Array<Instruction>;
+    fromStatements?: Array<ComputeStatement>;
 }
 
 export type ValueStatement = string;
 
-//export type PropsStatement = string;
 
 export type AP = AllProps;
 
@@ -55,14 +45,9 @@ export interface Actions{
     hydrate(self: this): ProPAP;
 }
 
-export interface FromStatement{
+export interface ComputeStatement{
     attr?: string,
     dependencies?: string,
     args?: Array<Arg>
 }
 
-
-
-// export interface ParsedActionStatement{
-//     dependencies?: string,
-// }

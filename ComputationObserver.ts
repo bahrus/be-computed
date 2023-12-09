@@ -1,5 +1,5 @@
 import { ObserveRule, ObserverOptions } from "be-observant/types";
-import { Arg, FromStatement } from './types';
+import { Arg, ComputeStatement } from './types';
 import { getLocalSignal } from "be-linked/defaults.js";
 import { getRemoteEl } from "be-linked/getRemoteEl.js";
 import { Observer } from "be-observant/Observer.js";
@@ -10,7 +10,7 @@ import { SignalRefType } from "be-linked/types";
 export class ComputationObserver{
     constructor(
         public expr: (vm: any) => any,
-        public fromStatement: FromStatement,
+        public fromStatement: ComputeStatement,
         args: Array<Arg>,
         public enhancedElement: Element,
         enhancementInstance: BeComputed
