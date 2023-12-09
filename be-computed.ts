@@ -11,6 +11,7 @@ import {getSignalVal} from 'be-linked/getSignalVal.js';
 import {getSignal} from 'be-linked/getSignal.js';
 import {Actions as BPActions} from 'be-propagating/types';
 import {rewrite} from './rewrite.js';
+import {parse} from 'be-exporting/be-exporting.js';
 
 const cache = new Map<string, {}>();
 const prsOnValuesCache = new Map<string, {}>();
@@ -62,7 +63,8 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
             const attrVal = enhancedElement.getAttribute(attr);
             if(attrVal === null) throw 404;
             const rewritten = rewrite(attrVal, args.map(x => x.prop!));
-            console.log({rewritten});
+            const parsedJavaScript = await parse(rewritten);
+            console.log({parsedJavaScript});
         }
         // for(const arg of args!){
         //     const {prop, type, attr} = arg;

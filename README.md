@@ -47,10 +47,10 @@ In the examples below, we will encounter special symbols used in order to keep t
 
 What this does:
 
-1.  Since the onload doesn't start with export const ..., and doesn't start with an open parenthesis, wraps expression inside onload with:
+1.  Since the onload attribute expression doesn't start with export const ..., and doesn't start with an open parenthesis, *be-computed* wraps the expression like so:
 
 ```JavaScript
-export const default = ({isHappy, isWealthy}) => {
+export const expr = ({isHappy, isWealthy}) => {
     return isHappy && !isWealthy;
 }
 ```

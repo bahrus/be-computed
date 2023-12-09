@@ -21,7 +21,7 @@ export function rewrite(script: string, names: Array<string>): string{
         throw 'NI';
     }
     const newScript = `
-        export const default = async ({${names.join(', ')}}) => {
+        export const expr = async ({${names.join(', ')}}) => {
             return ${script};
         }
     `;

@@ -2,6 +2,7 @@ import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 import { rewrite } from './rewrite.js';
+import { parse } from 'be-exporting/be-exporting.js';
 const cache = new Map();
 const prsOnValuesCache = new Map();
 const prsOnActionsCache = new Map();
@@ -51,7 +52,8 @@ export class BeComputed extends BE {
             if (attrVal === null)
                 throw 404;
             const rewritten = rewrite(attrVal, args.map(x => x.prop));
-            console.log({ rewritten });
+            const parsedJavaScript = await parse(rewritten);
+            console.log({ parsedJavaScript });
         }
         // for(const arg of args!){
         //     const {prop, type, attr} = arg;
