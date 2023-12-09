@@ -22,7 +22,7 @@ export function rewrite(script: string, names: Array<string>): string{
     }
     const newScript = `
         export const expr = async ({${names.join(', ')}}) => {
-            return ${script};
+            return ${trimmedScript};
         }
     `;
     return newScript;

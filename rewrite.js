@@ -19,7 +19,7 @@ export function rewrite(script, names) {
     }
     const newScript = `
         export const expr = async ({${names.join(', ')}}) => {
-            return ${script};
+            return ${trimmedScript};
         }
     `;
     return newScript;
