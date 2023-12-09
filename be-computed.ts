@@ -12,6 +12,11 @@ import {getSignal} from 'be-linked/getSignal.js';
 import {Actions as BPActions} from 'be-propagating/types';
 import {rewrite} from './rewrite.js';
 import {parse} from 'be-exporting/be-exporting.js';
+import {ObserveRule, ObserverOptions} from 'be-observant/types';
+import {getLocalSignal} from 'be-linked/defaults.js';
+import { LocalSignal, SignalRefType } from 'be-linked/types';
+import {getRemoteEl} from 'be-linked/getRemoteEl.js';
+import {Observer} from 'be-observant/Observer.js';
 
 const cache = new Map<string, {}>();
 const prsOnValuesCache = new Map<string, {}>();
@@ -24,6 +29,17 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
             parseAndCamelize: true,
             isParsedProp: 'isParsed'
         } as BEConfig
+    }
+
+    #abortControllers: Array<AbortController>  = [];
+    disconnect(){
+        for(const ac of this.#abortControllers){
+            ac.abort();
+        }
+        this.#abortControllers = [];
+    }
+    override detach(detachedElement: Element): void {
+        this.disconnect();
     }
 
     async onFrom(self: this) {
@@ -64,7 +80,29 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
             if(attrVal === null) throw 404;
             const rewritten = rewrite(attrVal, args.map(x => x.remoteProp!));
             const parsedJavaScript = await parse(rewritten);
+            for(const arg of args){
+                arg.fromStatement.expr = parsedJavaScript['expr'];
+                const observeRule: ObserveRule = {...arg};
+                observeRule.callback = this.handleObserveCallback;
+                let {localProp, transformAttr, remoteProp, remoteType} = arg;
+                let localSignal: SignalRefType | undefined;
+                if(localProp === undefined && transformAttr === undefined){
+                    const signal = await getLocalSignal(enhancedElement);
+                    observeRule.localProp = signal.prop;
+                    observeRule.localSignal = signal.signal;
+                }
+                const remoteEl = await getRemoteEl(enhancedElement, remoteType, remoteProp);
+                const observerOptions: ObserverOptions = {
+                    abortControllers: this.#abortControllers,
+                    remoteEl,
+                }
+                new Observer(self, observeRule, observerOptions);
+                
+            }
             console.log({parsedJavaScript});
+        }
+        return {
+            resolved: true
         }
         // for(const arg of args!){
         //     const {prop, type, attr} = arg;
@@ -78,6 +116,9 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
         // evalFormula(self);
     }
 
+    handleObserveCallback = async (observe: ObserveRule, val: any)  => {
+        console.log({observe});
+    }
 
 }
 

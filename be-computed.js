@@ -3,6 +3,9 @@ import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 import { rewrite } from './rewrite.js';
 import { parse } from 'be-exporting/be-exporting.js';
+import { getLocalSignal } from 'be-linked/defaults.js';
+import { getRemoteEl } from 'be-linked/getRemoteEl.js';
+import { Observer } from 'be-observant/Observer.js';
 const cache = new Map();
 const prsOnValuesCache = new Map();
 const prsOnActionsCache = new Map();
@@ -14,6 +17,16 @@ export class BeComputed extends BE {
             parseAndCamelize: true,
             isParsedProp: 'isParsed'
         };
+    }
+    #abortControllers = [];
+    disconnect() {
+        for (const ac of this.#abortControllers) {
+            ac.abort();
+        }
+        this.#abortControllers = [];
+    }
+    detach(detachedElement) {
+        this.disconnect();
     }
     async onFrom(self) {
         const { parsedFrom } = self;
@@ -53,8 +66,29 @@ export class BeComputed extends BE {
                 throw 404;
             const rewritten = rewrite(attrVal, args.map(x => x.remoteProp));
             const parsedJavaScript = await parse(rewritten);
+            for (const arg of args) {
+                arg.fromStatement.expr = parsedJavaScript['expr'];
+                const observeRule = { ...arg };
+                observeRule.callback = this.handleObserveCallback;
+                let { localProp, transformAttr, remoteProp, remoteType } = arg;
+                let localSignal;
+                if (localProp === undefined && transformAttr === undefined) {
+                    const signal = await getLocalSignal(enhancedElement);
+                    observeRule.localProp = signal.prop;
+                    observeRule.localSignal = signal.signal;
+                }
+                const remoteEl = await getRemoteEl(enhancedElement, remoteType, remoteProp);
+                const observerOptions = {
+                    abortControllers: this.#abortControllers,
+                    remoteEl,
+                };
+                new Observer(self, observeRule, observerOptions);
+            }
             console.log({ parsedJavaScript });
         }
+        return {
+            resolved: true
+        };
         // for(const arg of args!){
         //     const {prop, type, attr} = arg;
         //     const signalRefs = await getSignal(enhancedElement, type!, prop!, attr);
@@ -66,6 +100,9 @@ export class BeComputed extends BE {
         // }
         // evalFormula(self);
     }
+    handleObserveCallback = async (observe, val) => {
+        console.log({ observe });
+    };
 }
 const tagName = 'be-computed';
 const ifWantsToBe = 'computed';

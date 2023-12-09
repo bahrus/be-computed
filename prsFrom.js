@@ -15,11 +15,11 @@ export function prsFrom(self) {
     let { from, fromStatements } = self;
     if (fromStatements === undefined)
         fromStatements = [];
-    for (const fromStatement of from) {
-        const test = tryParse(fromStatement, reValueStatement);
-        if (test === null)
+    for (const fromStatementString of from) {
+        const fromStatement = tryParse(fromStatementString, reValueStatement);
+        if (fromStatement === null)
             throw 'PE'; //Parse Error
-        const { dependencies } = test;
+        const { dependencies } = fromStatement;
         const splitDependencies = dependencies.split(',').map(x => x.trim());
         const args = [];
         for (const dependency of splitDependencies) {
@@ -39,12 +39,13 @@ export function prsFrom(self) {
             const arg = {
                 remoteType,
                 remoteProp,
-                attr,
+                fromStatement: { ...fromStatement }
+                //attr,
             };
             args.push(arg);
         }
-        test.args = args;
-        fromStatements.push(test);
+        fromStatement.args = args;
+        fromStatements.push(fromStatement);
     }
     return {
         fromStatements

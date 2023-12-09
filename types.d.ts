@@ -14,9 +14,13 @@ export interface EndUserProps extends IBE{
 }
 
 export interface Arg extends ObserveRule{
-    attr?: string,
+    //attr?: string,
     signal?: WeakRef<SignalRefType>,
+    transformAttr?: string,
+    fromStatement: FromStatementWithAction,
 }
+
+
 
 // export interface Instruction{
 //     args?: Array<Arg>;
@@ -49,7 +53,7 @@ export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>];
 export interface Actions{
     onFrom(self: this): ProPAP;
     //importSymbols(self: this): ProPAP;
-    hydrate(self: this): Promise<void>;
+    hydrate(self: this): ProPAP;
 }
 
 export interface FromStatement{
@@ -58,6 +62,10 @@ export interface FromStatement{
     args?: Array<Arg>
 }
 
-export interface ParsedActionStatement{
-    dependencies?: string,
+export interface FromStatementWithAction extends FromStatement{
+    expr: (vm: any) => void;
 }
+
+// export interface ParsedActionStatement{
+//     dependencies?: string,
+// }

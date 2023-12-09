@@ -18,10 +18,10 @@ export function prsFrom(self: AP) : PAP {
     //be careful about making this asynchronous due to instructions getting out of sync
     let {from, fromStatements} = self;
     if(fromStatements === undefined) fromStatements = [];
-    for(const fromStatement of from!){
-        const test = tryParse(fromStatement, reValueStatement) as FromStatement;
-        if(test === null) throw 'PE'; //Parse Error
-        const {dependencies} = test;
+    for(const fromStatementString of from!){
+        const fromStatement = tryParse(fromStatementString, reValueStatement) as FromStatement;
+        if(fromStatement === null) throw 'PE'; //Parse Error
+        const {dependencies} = fromStatement;
         const splitDependencies = dependencies!.split(',').map(x => x.trim());
         const args: Array<Arg> = [];
         for(const dependency of splitDependencies){
@@ -42,12 +42,13 @@ export function prsFrom(self: AP) : PAP {
             const arg: Arg = {
                 remoteType,
                 remoteProp,
-                attr,
+                fromStatement: {...fromStatement}
+                //attr,
             };
             args.push(arg);
         }
-        test.args = args;
-        fromStatements.push(test);
+        fromStatement.args = args;
+        fromStatements.push(fromStatement);
         
     }
     return {
