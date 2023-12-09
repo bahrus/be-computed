@@ -20,15 +20,15 @@
 </head>
 <body>
     <div itemscope>
-        <link itemprop=isHappy>
-        <link itemprop=isWealthy>
+        <link itemprop=isHappy href=https://schema.org/True>
+        <link itemprop=isWealthy href=https://schema.org/False>
     
         
     
-        <script nomodule>
-            isHappy && !isWealthy
-        </script>
-        <link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy.'>
+        <link itemprop=isInNirvana 
+            onload="isHappy && !isWealthy"
+            be-computed='from onload expression, passing in $isHappy, $isWealthy.' 
+        >
     </div>
     <script type=module>
         import '../be-computed.js';

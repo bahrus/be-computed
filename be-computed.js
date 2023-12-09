@@ -1,9 +1,7 @@
 import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
-import { setItemProp } from 'be-linked/setItemProp.js';
-import { getSignalVal } from 'be-linked/getSignalVal.js';
-import { getSignal } from 'be-linked/getSignal.js';
+import { rewrite } from './rewrite.js';
 const cache = new Map();
 const prsOnValuesCache = new Map();
 const prsOnActionsCache = new Map();
@@ -26,62 +24,45 @@ export class BeComputed extends BE {
         }
         return parsed;
     }
-    async importSymbols(self) {
-        import('be-exportable/be-exportable.js');
-        const { scriptRef, enhancedElement, nameOfExport } = self;
-        const { findRealm } = await import('trans-render/lib/findRealm.js');
-        const target = await findRealm(enhancedElement, scriptRef);
-        if (target === null)
-            throw 404;
-        if (!target.src) {
-            const { rewrite } = await import('./rewrite.js');
-            rewrite(self, target);
-        }
-        const exportable = await target.beEnhanced.whenResolved('be-exportable');
-        return {
-            evaluate: exportable.exports[nameOfExport]
-        };
-    }
-    async observe(self) {
-        const { instructions, enhancedElement } = self;
-        const args = instructions[0].args;
-        for (const arg of args) {
-            const { prop, type, attr } = arg;
-            const signalRefs = await getSignal(enhancedElement, type, prop, attr);
-            const { ref, eventType } = signalRefs;
-            arg.signal = ref;
-            signalRefs.signal.addEventListener(eventType, e => {
-                evalFormula(self);
-            });
-        }
-        evalFormula(self);
-    }
-}
-async function evalFormula(self) {
-    const { evaluate, instructions, enhancedElement } = self;
-    const inputObj = {};
-    const [firstInstruction] = instructions;
-    const args = firstInstruction.args;
-    for (const arg of args) {
-        const { signal, prop } = arg;
-        const ref = signal?.deref();
-        if (ref === undefined) {
-            console.warn({ arg, msg: "Out of scope" });
-            continue;
-        }
-        const val = getSignalVal(ref);
-        inputObj[prop] = val;
-    }
-    const result = await evaluate(inputObj);
-    const value = result?.value === undefined ? result : result.value;
-    // if(enhancedElement.localName === 'meta'){
-    //     debugger;
+    // async importSymbols(self: this): ProPAP {
+    //     import('be-exportable/be-exportable.js');
+    //     const {scriptRef, enhancedElement, nameOfExport} = self;
+    //     const {findRealm} = await import('trans-render/lib/findRealm.js');
+    //     const target = await findRealm(enhancedElement, scriptRef!) as HTMLScriptElement | null;
+    //     if(target === null) throw 404;
+    //     if(!target.src){
+    //         const {rewrite} = await import('./rewrite.js');
+    //         rewrite(self, target);
+    //     }
+    //     const exportable = await (<any>target).beEnhanced.whenResolved('be-exportable') as BeExportableAllProps;
+    //     return {
+    //         evaluate: exportable.exports[nameOfExport!]
+    //     }
     // }
-    if (typeof value === 'object') {
-        Object.assign(enhancedElement, value);
-    }
-    else {
-        await setItemProp(enhancedElement, value, enhancedElement.getAttribute('itemprop'));
+    async observe(self) {
+        const { fromStatements, enhancedElement } = self;
+        for (const fromStatement of fromStatements) {
+            const { attr, args } = fromStatement;
+            if (attr === undefined)
+                throw 'NI';
+            if (args === undefined)
+                throw 'NI';
+            const attrVal = enhancedElement.getAttribute(attr);
+            if (attrVal === null)
+                throw 404;
+            const rewritten = rewrite(attrVal, args.map(x => x.prop));
+            console.log({ rewritten });
+        }
+        // for(const arg of args!){
+        //     const {prop, type, attr} = arg;
+        //     const signalRefs = await getSignal(enhancedElement, type!, prop!, attr);
+        //     const {ref, eventType} = signalRefs;
+        //     arg.signal = ref;
+        //     signalRefs.signal.addEventListener(eventType, e => {
+        //         evalFormula(self);
+        //     });
+        // }
+        // evalFormula(self);
     }
 }
 const tagName = 'be-computed';
@@ -103,11 +84,11 @@ const xe = new XE({
             onFrom: {
                 ifAllOf: ['isParsed', 'from'],
             },
-            importSymbols: {
-                ifAllOf: ['isParsed', 'nameOfExport', 'instructions', 'scriptRef']
-            },
+            // importSymbols: {
+            //     ifAllOf: ['isParsed', 'nameOfExport', 'instructions', 'scriptRef']
+            // },
             observe: {
-                ifAllOf: ['evaluate', 'instructions']
+                ifAllOf: ['fromStatements']
             }
         }
     },
