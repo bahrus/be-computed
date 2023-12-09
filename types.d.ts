@@ -49,7 +49,7 @@ export type POA = [PAP | undefined, ActionOnEventConfigs<PAP, Actions>];
 export interface Actions{
     onFrom(self: this): ProPAP;
     //importSymbols(self: this): ProPAP;
-    observe(self: this): Promise<void>;
+    hydrate(self: this): Promise<void>;
 }
 
 export interface FromStatement{

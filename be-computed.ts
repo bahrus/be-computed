@@ -54,7 +54,7 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
     //     }
     // }
 
-    async observe(self: this){
+    async hydrate(self: this){
         const {fromStatements, enhancedElement} = self;
         for(const fromStatement of fromStatements!){
             const {attr, args} = fromStatement;
@@ -135,7 +135,7 @@ const xe = new XE<AP, Actions>({
             // importSymbols: {
             //     ifAllOf: ['isParsed', 'nameOfExport', 'instructions', 'scriptRef']
             // },
-            observe:{
+            hydrate:{
                 ifAllOf: ['fromStatements']
             }
         }

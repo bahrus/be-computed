@@ -40,7 +40,7 @@ export class BeComputed extends BE {
     //         evaluate: exportable.exports[nameOfExport!]
     //     }
     // }
-    async observe(self) {
+    async hydrate(self) {
         const { fromStatements, enhancedElement } = self;
         for (const fromStatement of fromStatements) {
             const { attr, args } = fromStatement;
@@ -89,7 +89,7 @@ const xe = new XE({
             // importSymbols: {
             //     ifAllOf: ['isParsed', 'nameOfExport', 'instructions', 'scriptRef']
             // },
-            observe: {
+            hydrate: {
                 ifAllOf: ['fromStatements']
             }
         }
