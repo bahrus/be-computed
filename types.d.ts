@@ -17,7 +17,6 @@ export interface Arg extends ObserveRule{
     //attr?: string,
     signal?: WeakRef<SignalRefType>,
     transformAttr?: string,
-    fromStatement: FromStatementWithAction,
 }
 
 
@@ -62,9 +61,7 @@ export interface FromStatement{
     args?: Array<Arg>
 }
 
-export interface FromStatementWithAction extends FromStatement{
-    expr: (vm: any) => void;
-}
+
 
 // export interface ParsedActionStatement{
 //     dependencies?: string,

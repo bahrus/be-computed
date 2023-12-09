@@ -13,15 +13,15 @@ be-computed is very close in purpose to be-overloading.  be-overloading focuses 
 
 ## Special Symbols
 
-In the examples below, we will encounter special symbols used in order to keep the statements small:
+In the examples below, we will encounter special symbols used in order to keep the statements small, as far as identifying which elements to pull in property values, and observing those elements for property value changes:
 
-| Symbol      | Meaning              | Notes                                                                                |
-|-------------|----------------------|--------------------------------------------------------------------------------------|
-| /propName   |"Hostish"             | Attaches listeners to getters/setters.                                               |
-| @propName   |Name attribute        | Listens for input events.                                                            |
-| $propName   |Itemprop attribute    | If contenteditible, listens for input events.  Otherwise, uses be-value-added.       |
-| #propName   |Id attribute          | Listens for input events.                                                            |
-| -prop-name  |Marker indicates prop | Attaches listeners to getters/setters.                                               |
+| Symbol      | Meaning              | Notes                                                                                                                                       |
+|-------------|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| /propName   |"Hostish"             | Attaches listeners to getters/setters on properties of "hostish".                                                                           |
+| @propName   |Name attribute        | Listens for input events on form elements based on matching the name attribute.                                                             |
+| $propName   |Itemprop attribute    | Matches element based on matching itemprop attribute.  If contenteditible, listens for input events.  Otherwise, uses be-value-added.       |
+| #propName   |Id attribute          | Matches element based on id within ShadowDOM realm.  Listens for input events.                                                              |
+| -prop-name  |Marker indicates prop | Matches elements based on finding the exact attribute starting with a dash.  Attaches listeners to getters/setters.                         |
 
 
 "Hostish" means:

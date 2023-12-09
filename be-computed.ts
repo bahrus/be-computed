@@ -17,6 +17,7 @@ import {getLocalSignal} from 'be-linked/defaults.js';
 import { LocalSignal, SignalRefType } from 'be-linked/types';
 import {getRemoteEl} from 'be-linked/getRemoteEl.js';
 import {Observer} from 'be-observant/Observer.js';
+import { ComputationObserver } from './ComputationObserver.js';
 
 const cache = new Map<string, {}>();
 const prsOnValuesCache = new Map<string, {}>();
@@ -31,15 +32,12 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
         } as BEConfig
     }
 
-    #abortControllers: Array<AbortController>  = [];
-    disconnect(){
-        for(const ac of this.#abortControllers){
-            ac.abort();
-        }
-        this.#abortControllers = [];
-    }
+    
+    #computationObservers: Array<ComputationObserver> = [];
     override detach(detachedElement: Element): void {
-        this.disconnect();
+        for(const co of this.#computationObservers){
+            co.disconnect();
+        }
     }
 
     async onFrom(self: this) {
@@ -54,22 +52,6 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
         return parsed as PAP;
     }
 
-    // async importSymbols(self: this): ProPAP {
-    //     import('be-exportable/be-exportable.js');
-    //     const {scriptRef, enhancedElement, nameOfExport} = self;
-    //     const {findRealm} = await import('trans-render/lib/findRealm.js');
-    //     const target = await findRealm(enhancedElement, scriptRef!) as HTMLScriptElement | null;
-    //     if(target === null) throw 404;
-    //     if(!target.src){
-    //         const {rewrite} = await import('./rewrite.js');
-    //         rewrite(self, target);
-    //     }
-    //     const exportable = await (<any>target).beEnhanced.whenResolved('be-exportable') as BeExportableAllProps;
-    //     return {
-    //         evaluate: exportable.exports[nameOfExport!]
-    //     }
-    // }
-
     async hydrate(self: this){
         const {fromStatements, enhancedElement} = self;
         for(const fromStatement of fromStatements!){
@@ -80,75 +62,20 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
             if(attrVal === null) throw 404;
             const rewritten = rewrite(attrVal, args.map(x => x.remoteProp!));
             const parsedJavaScript = await parse(rewritten);
-            for(const arg of args){
-                arg.fromStatement.expr = parsedJavaScript['expr'];
-                const observeRule: ObserveRule = {...arg};
-                observeRule.callback = this.handleObserveCallback;
-                let {localProp, transformAttr, remoteProp, remoteType} = arg;
-                let localSignal: SignalRefType | undefined;
-                if(localProp === undefined && transformAttr === undefined){
-                    const signal = await getLocalSignal(enhancedElement);
-                    observeRule.localProp = signal.prop;
-                    observeRule.localSignal = signal.signal;
-                }
-                const remoteEl = await getRemoteEl(enhancedElement, remoteType, remoteProp);
-                const observerOptions: ObserverOptions = {
-                    abortControllers: this.#abortControllers,
-                    remoteEl,
-                }
-                new Observer(self, observeRule, observerOptions);
-                
-            }
-            console.log({parsedJavaScript});
+            const expr = parsedJavaScript['expr'];
+            this.#computationObservers.push(
+                new ComputationObserver(expr, fromStatement, args, enhancedElement, self
+            ));
         }
         return {
             resolved: true
         }
-        // for(const arg of args!){
-        //     const {prop, type, attr} = arg;
-        //     const signalRefs = await getSignal(enhancedElement, type!, prop!, attr);
-        //     const {ref, eventType} = signalRefs;
-        //     arg.signal = ref;
-        //     signalRefs.signal.addEventListener(eventType, e => {
-        //         evalFormula(self);
-        //     });
-        // }
-        // evalFormula(self);
+
     }
 
-    handleObserveCallback = async (observe: ObserveRule, val: any)  => {
-        console.log({observe});
-    }
+
 
 }
-
-// async function evalFormula(self: AP){
-//     const {evaluate, instructions, enhancedElement} = self;
-//     const inputObj: {[key: string]:  any} = {};
-//     const [firstInstruction] = instructions!;
-//     const args = firstInstruction.args;
-//     for(const arg of args!){
-//         const {signal, prop} = arg;
-//         const ref = signal?.deref();
-//         if(ref === undefined){
-//             console.warn({arg, msg: "Out of scope"});
-//             continue;
-//         }
-//         const val = getSignalVal(ref);
-//         inputObj[prop!] = val;
-//     }
-//     const result = await evaluate!(inputObj);
-//     const value = result?.value === undefined ? result : result.value;
-//     // if(enhancedElement.localName === 'meta'){
-//     //     debugger;
-//     // }
-//     if(typeof value === 'object'){
-//         Object.assign(enhancedElement, value);
-//     }else{
-//         await setItemProp(enhancedElement, value, enhancedElement.getAttribute('itemprop')!);
-//     }
-    
-// }
 
 
 export interface BeComputed extends AllProps{}

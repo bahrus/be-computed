@@ -39,7 +39,6 @@ export function prsFrom(self) {
             const arg = {
                 remoteType,
                 remoteProp,
-                fromStatement: { ...fromStatement }
                 //attr,
             };
             args.push(arg);

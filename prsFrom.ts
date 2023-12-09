@@ -42,7 +42,6 @@ export function prsFrom(self: AP) : PAP {
             const arg: Arg = {
                 remoteType,
                 remoteProp,
-                fromStatement: {...fromStatement}
                 //attr,
             };
             args.push(arg);
