@@ -6,7 +6,11 @@ import {lispToCamel} from 'trans-render/lib/lispToCamel.js';
 
 const reValueStatement: RegExpOrRegExpExt<ComputeStatement>[] = [
     {
-        regExp: new RegExp(String.raw  `^(?<attr>[\w]+)(?<!\\)Expression,PassingIn(?<dependencies>.*)`),
+        regExp: new RegExp(String.raw `^(?<!\\)previousScriptElementExpression,PassingIn(?<dependencies>.*)`),
+        defaultVals:{previousElementScriptElement: true}
+    },
+    {
+        regExp: new RegExp(String.raw  `^(?<attrContainingExpression>[\w]+)(?<!\\)Expression,PassingIn(?<dependencies>.*)`),
         defaultVals: {}
     },
     {
@@ -19,9 +23,10 @@ export function prsFrom(self: AP) : PAP {
     let {from, fromStatements} = self;
     if(fromStatements === undefined) fromStatements = [];
     for(const fromStatementString of from!){
-        const fromStatement = tryParse(fromStatementString, reValueStatement) as ComputeStatement;
-        if(fromStatement === null) throw 'PE'; //Parse Error
-        const {dependencies} = fromStatement;
+        const computeStatement = tryParse(fromStatementString, reValueStatement) as ComputeStatement;
+        console.log({computeStatement, fromStatementString});
+        if(computeStatement === null) throw 'PE'; //Parse Error
+        const {dependencies} = computeStatement;
         const splitDependencies = dependencies!.split(',').map(x => x.trim());
         const args: Array<Arg> = [];
         for(const dependency of splitDependencies){
@@ -46,8 +51,8 @@ export function prsFrom(self: AP) : PAP {
             };
             args.push(arg);
         }
-        fromStatement.args = args;
-        fromStatements.push(fromStatement);
+        computeStatement.args = args;
+        fromStatements.push(computeStatement);
         
     }
     return {

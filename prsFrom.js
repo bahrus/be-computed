@@ -2,7 +2,11 @@ import { tryParse } from 'be-enhanced/cpu.js';
 import { lispToCamel } from 'trans-render/lib/lispToCamel.js';
 const reValueStatement = [
     {
-        regExp: new RegExp(String.raw `^(?<attr>[\w]+)(?<!\\)Expression,PassingIn(?<dependencies>.*)`),
+        regExp: new RegExp(String.raw `^(?<!\\)previousScriptElementExpression,PassingIn(?<dependencies>.*)`),
+        defaultVals: { previousElementScriptElement: true }
+    },
+    {
+        regExp: new RegExp(String.raw `^(?<attrContainingExpression>[\w]+)(?<!\\)Expression,PassingIn(?<dependencies>.*)`),
         defaultVals: {}
     },
     {
@@ -16,10 +20,11 @@ export function prsFrom(self) {
     if (fromStatements === undefined)
         fromStatements = [];
     for (const fromStatementString of from) {
-        const fromStatement = tryParse(fromStatementString, reValueStatement);
-        if (fromStatement === null)
+        const computeStatement = tryParse(fromStatementString, reValueStatement);
+        console.log({ computeStatement, fromStatementString });
+        if (computeStatement === null)
             throw 'PE'; //Parse Error
-        const { dependencies } = fromStatement;
+        const { dependencies } = computeStatement;
         const splitDependencies = dependencies.split(',').map(x => x.trim());
         const args = [];
         for (const dependency of splitDependencies) {
@@ -43,8 +48,8 @@ export function prsFrom(self) {
             };
             args.push(arg);
         }
-        fromStatement.args = args;
-        fromStatements.push(fromStatement);
+        computeStatement.args = args;
+        fromStatements.push(computeStatement);
     }
     return {
         fromStatements

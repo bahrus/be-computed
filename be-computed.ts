@@ -3,20 +3,10 @@ import {BEConfig} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
 import {Actions, AllProps, AP, PAP, ProPAP, POA} from './types';
 import {register} from 'be-hive/register.js';
-import {AllProps as  BeExportableAllProps} from 'be-exportable/types';
-import {findRealm} from 'trans-render/lib/findRealm.js';
-import {BVAAllProps} from 'be-value-added/types';
-import {setItemProp} from 'be-linked/setItemProp.js';
-import {getSignalVal} from 'be-linked/getSignalVal.js';
-import {getSignal} from 'be-linked/getSignal.js';
-import {Actions as BPActions} from 'be-propagating/types';
+
 import {rewrite} from './rewrite.js';
 import {parse} from 'be-exporting/be-exporting.js';
-import {ObserveRule, ObserverOptions} from 'be-observant/types';
-import {getLocalSignal} from 'be-linked/defaults.js';
-import { LocalSignal, SignalRefType } from 'be-linked/types';
-import {getRemoteEl} from 'be-linked/getRemoteEl.js';
-import {Observer} from 'be-observant/Observer.js';
+
 import { ComputationObserver } from './ComputationObserver.js';
 
 const cache = new Map<string, {}>();
@@ -55,12 +45,21 @@ export class BeComputed extends BE<AP, Actions> implements Actions{
     async hydrate(self: this){
         const {fromStatements, enhancedElement} = self;
         for(const fromStatement of fromStatements!){
-            const {attrContainingExpression, args} = fromStatement;
-            if(attrContainingExpression === undefined) throw 'NI';
+            const {attrContainingExpression, args, previousElementScriptElement} = fromStatement;
+            if(attrContainingExpression === undefined && !previousElementScriptElement) throw 'NI';
             if(args === undefined) throw 'NI';
-            const attrVal = enhancedElement.getAttribute(attrContainingExpression);
-            if(attrVal === null) throw 404;
-            const rewritten = rewrite(attrVal, args.map(x => x.remoteProp!));
+            let scriptText: string | null = null;
+            if(previousElementScriptElement){
+                const {upSearch} = await import('trans-render/lib/upSearch.js');
+                const scriptElement = upSearch(enhancedElement, 'script');
+                if(!(scriptElement instanceof HTMLScriptElement)) throw 404;
+                scriptText = scriptElement.innerHTML;
+            }else{
+                scriptText = enhancedElement.getAttribute(attrContainingExpression!);
+                if(scriptText === null) throw 404;
+            }
+            
+            const rewritten = rewrite(scriptText!, args.map(x => x.remoteProp!));
             const parsedJavaScript = await parse(rewritten);
             const expr = parsedJavaScript['expr'];
             this.#computationObservers.push(

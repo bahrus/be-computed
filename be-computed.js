@@ -35,15 +35,25 @@ export class BeComputed extends BE {
     async hydrate(self) {
         const { fromStatements, enhancedElement } = self;
         for (const fromStatement of fromStatements) {
-            const { attrContainingExpression, args } = fromStatement;
-            if (attrContainingExpression === undefined)
+            const { attrContainingExpression, args, previousElementScriptElement } = fromStatement;
+            if (attrContainingExpression === undefined && !previousElementScriptElement)
                 throw 'NI';
             if (args === undefined)
                 throw 'NI';
-            const attrVal = enhancedElement.getAttribute(attrContainingExpression);
-            if (attrVal === null)
-                throw 404;
-            const rewritten = rewrite(attrVal, args.map(x => x.remoteProp));
+            let scriptText = null;
+            if (previousElementScriptElement) {
+                const { upSearch } = await import('trans-render/lib/upSearch.js');
+                const scriptElement = upSearch(enhancedElement, 'script');
+                if (!(scriptElement instanceof HTMLScriptElement))
+                    throw 404;
+                scriptText = scriptElement.innerHTML;
+            }
+            else {
+                scriptText = enhancedElement.getAttribute(attrContainingExpression);
+                if (scriptText === null)
+                    throw 404;
+            }
+            const rewritten = rewrite(scriptText, args.map(x => x.remoteProp));
             const parsedJavaScript = await parse(rewritten);
             const expr = parsedJavaScript['expr'];
             this.#computationObservers.push(new ComputationObserver(expr, fromStatement, args, enhancedElement, self));
