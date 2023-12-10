@@ -15,7 +15,9 @@ const reValueStatement: RegExpOrRegExpExt<ComputeStatement>[] = [
     },
     {
         regExp: new RegExp(String.raw `^(?<dependencies>.*)`),
-        defaultVals: {}
+        defaultVals: {
+            onloadOrPreviousEleentScriptElement: true
+        }
     }
 ]
 export function prsFrom(self: AP) : PAP {

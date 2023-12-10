@@ -35,9 +35,15 @@ export class BeComputed extends BE {
     async hydrate(self) {
         const { fromStatements, enhancedElement } = self;
         for (const fromStatement of fromStatements) {
-            const { attrContainingExpression, args, previousElementScriptElement } = fromStatement;
-            if (attrContainingExpression === undefined && !previousElementScriptElement)
-                throw 'NI';
+            const { attrContainingExpression, args, previousElementScriptElement, onloadOrPreviousEleentScriptElement } = fromStatement;
+            if (attrContainingExpression === undefined && !previousElementScriptElement) {
+                if (onloadOrPreviousEleentScriptElement) {
+                    throw 'NI';
+                }
+                {
+                    throw 400;
+                }
+            }
             if (args === undefined)
                 throw 'NI';
             let scriptText = null;

@@ -92,7 +92,8 @@ Advantages of using script element -- less issues with characters that cause pro
 
     ...
     
-    <link itemprop=isInNirvana onload="isHappy && !isWealthy" 
+    <link itemprop=isInNirvana 
+        onload="isHappy && !isWealthy" 
         be-computed='from $isHappy, $isWealthy.' 
     >
 </div>
