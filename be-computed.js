@@ -35,18 +35,23 @@ export class BeComputed extends BE {
     async hydrate(self) {
         const { fromStatements, enhancedElement } = self;
         for (const fromStatement of fromStatements) {
-            const { attrContainingExpression, args, previousElementScriptElement, onloadOrPreviousEleentScriptElement } = fromStatement;
-            if (attrContainingExpression === undefined && !previousElementScriptElement) {
-                if (onloadOrPreviousEleentScriptElement) {
-                    throw 'NI';
-                }
-                {
-                    throw 400;
-                }
-            }
+            let { attrContainingExpression, args, previousElementScriptElement, onloadOrPreviousElementScriptElement } = fromStatement;
             if (args === undefined)
                 throw 'NI';
             let scriptText = null;
+            if (attrContainingExpression === undefined && !previousElementScriptElement) {
+                if (onloadOrPreviousElementScriptElement) {
+                    if (enhancedElement.hasAttribute('onload')) {
+                        attrContainingExpression = 'onload';
+                    }
+                    else {
+                        previousElementScriptElement = true;
+                    }
+                }
+                else {
+                    throw 400;
+                }
+            }
             if (previousElementScriptElement) {
                 const { upSearch } = await import('trans-render/lib/upSearch.js');
                 const scriptElement = upSearch(enhancedElement, 'script');

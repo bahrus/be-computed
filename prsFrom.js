@@ -12,7 +12,7 @@ const reValueStatement = [
     {
         regExp: new RegExp(String.raw `^(?<dependencies>.*)`),
         defaultVals: {
-            onloadOrPreviousEleentScriptElement: true
+            onloadOrPreviousElementScriptElement: true
         }
     }
 ];
