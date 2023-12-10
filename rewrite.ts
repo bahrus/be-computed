@@ -17,14 +17,17 @@ import {AP} from './types';
 
 export function rewrite(script: string, names: Array<string>): string{
     const trimmedScript = script.trim();
+    if(trimmedScript.includes('export const')){
+        return trimmedScript;
+    }
     if(trimmedScript[0] === '('){
         const newScript2 = `export const expr = async ${trimmedScript}`;
         return newScript2;
     }
-    const newScript = `
+    const newScript3 = `
         export const expr = async ({${names.join(', ')}}) => {
             return ${trimmedScript};
         }
     `;
-    return newScript;
+    return newScript3;
 }

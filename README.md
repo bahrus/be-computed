@@ -153,7 +153,7 @@ Advantages of using script element -- less issues with characters that cause pro
 
 Since the expression starts with open parenthesis, wrapping is more lightweight.  Just adds export const default.
 
-## Example 1g [TODO]
+## Example 1g
 
 Specify export symbol
 

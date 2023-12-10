@@ -35,7 +35,7 @@ export class BeComputed extends BE {
     async hydrate(self) {
         const { fromStatements, enhancedElement } = self;
         for (const fromStatement of fromStatements) {
-            let { attrContainingExpression, args, previousElementScriptElement, onloadOrPreviousElementScriptElement } = fromStatement;
+            let { attrContainingExpression, args, previousElementScriptElement, onloadOrPreviousElementScriptElement, importName } = fromStatement;
             if (args === undefined)
                 throw 'NI';
             let scriptText = null;
@@ -66,7 +66,7 @@ export class BeComputed extends BE {
             }
             const rewritten = rewrite(scriptText, args.map(x => x.remoteProp));
             const parsedJavaScript = await parse(rewritten);
-            const expr = parsedJavaScript['expr'];
+            const expr = parsedJavaScript[importName || 'expr'];
             this.#computationObservers.push(new ComputationObserver(expr, fromStatement, args, enhancedElement, self));
         }
         return {
