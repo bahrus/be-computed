@@ -244,7 +244,7 @@ Value coming from marker
 
 Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to use arrow functions inside, need to provide the context.
 
-## Example 2b Assigning objects, compact notation, external script [TODO]
+## Example 2b Assigning objects, compact notation, external script
 
 ```html
 <form itemscope>

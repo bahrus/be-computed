@@ -26,6 +26,13 @@ const reValueStatement: RegExpOrRegExpExt<ComputeStatement>[] = [
         defaultVals: {}
     },
     {
+        regExp: new RegExp(String.raw `^(?<dependencies>.*),AndAssignResult`),
+        defaultVals:{
+            assignResult: true,
+            onloadOrPreviousElementScriptElement: true
+        }
+    },
+    {
         regExp: new RegExp(String.raw `^(?<dependencies>.*)`),
         defaultVals: {
             onloadOrPreviousElementScriptElement: true
