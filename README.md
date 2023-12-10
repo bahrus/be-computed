@@ -115,7 +115,7 @@ Advantages of using script element -- less issues with characters that cause pro
 </div>
 ```
 
-## Example 1e -- bind to named elements and id'd elements [TODO]
+## Example 1e -- bind to named elements and id'd elements
 
 ```html
 <form itemscope>
