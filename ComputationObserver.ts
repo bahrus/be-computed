@@ -66,13 +66,19 @@ export class ComputationObserver{
         }
         const result = await this.expr(vm);
         console.log({observe, result});
-        if(this.#localSignal === undefined){
-            const signal = await getLocalSignal(this.enhancedElement);
-            this.#localProp = signal.prop;
-            this.#localSignal = signal.signal;
+        const {assignResult} = this.fromStatement;
+        if(assignResult){
+            Object.assign(this.enhancedElement, result);
+        }else{
+            if(this.#localSignal === undefined){
+                const signal = await getLocalSignal(this.enhancedElement);
+                this.#localProp = signal.prop;
+                this.#localSignal = signal.signal;
+            }
+            
+            setSignalVal(this.#localSignal, result);
         }
         
-        setSignalVal(this.#localSignal, result);
     }
 
     #args: Array<Arg> = [];

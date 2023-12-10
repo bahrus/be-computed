@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Example 1a</title>
+    <title>Example 2a</title>
     <script type=importmap>
         {
             "imports": {
@@ -29,8 +29,8 @@
     
         <script nomodule>
             ({
-                prop1: isHappy && !isWealthy && liberated.length > 17,
-                prop2: liberated.blink()
+                prop1: isHappy && !isWealthy && liberated?.length > 17,
+                prop2: liberated?.blink()
             })
         </script>
         <any-element itemprop=isInNirvana enh-by-be-computed='from previous script element expression, passing in $isHappy, @isWealthy, #liberated, and assign result.'></any-element>

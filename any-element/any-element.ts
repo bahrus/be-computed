@@ -31,3 +31,5 @@ export class AnyElement extends HTMLElement{
         `;
     }
 }
+
+customElements.define('any-element', AnyElement);

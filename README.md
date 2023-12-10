@@ -223,7 +223,7 @@ Value coming from marker
 </form>
 ```
 
-## Example 2a Assigning objects, verbose notation, external script [TODO]
+## Example 2a Assigning objects, verbose notation, external script
 
 ```html
 <form itemscope>
@@ -234,11 +234,11 @@ Value coming from marker
 
     <script nomodule>
         ({
-            prop1: isHappy && !isWealthy && liberated.length > 17,
-            prop2: liberated.blink()
+            prop1: isHappy && !isWealthy && liberated?.length > 17,
+            prop2: liberated?.blink()
         })
     </script>
-    <any-element itemprop=isInNirvana be-computed='from previous script element, passing in $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
+    <any-element itemprop=isInNirvana be-computed='from previous script element expression, passing in $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
 </form>
 ```
 
@@ -255,8 +255,8 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
 
     <script nomodule>
         {
-            prop1: isHappy && !isWealthy && liberated.length > 17,
-            prop2: liberated.blink()
+            prop1: isHappy && !isWealthy && liberated?.length > 17,
+            prop2: liberated?.blink()
         }
     </script>
     <any-element itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
@@ -275,8 +275,8 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
     <any-element itemprop=isInNirvana
         onload="
         {
-            prop1: isHappy && !isWealthy && liberated.length > 17,
-            prop2: liberated.blink()
+            prop1: isHappy && !isWealthy && liberated?.length > 17,
+            prop2: liberated?.blink()
         }
         " 
         be-computed='from onload expression, passing in $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
@@ -294,8 +294,8 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
     <any-element itemprop=isInNirvana
         onload="
         {
-            prop1: isHappy && !isWealthy && liberated.length > 17,
-            prop2: liberated.blink()
+            prop1: isHappy && !isWealthy && liberated?.length > 17,
+            prop2: liberated?.blink()
         }
         " 
         be-computed='from $isHappy, @isWealthy, #liberated, and assign result.'>
