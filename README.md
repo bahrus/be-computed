@@ -187,7 +187,7 @@ This allows for multiple expressions that can be used by different enhancements.
         <script nomodule>
             myProp ** 2
         </script>
-        <data itemprop=squared be-computed='from /myProp.'>
+        <data itemprop=squared be-computed='from /numValue.'></data>
         <be-hive></be-hive>
 </my-custom-element>
 ```
@@ -223,7 +223,7 @@ Value coming from marker
 </form>
 ```
 
-## Example 2a [TODO]
+## Example 2a Assigning objects, verbose notation, external script [TODO]
 
 ```html
 <form itemscope>
@@ -233,16 +233,74 @@ Value coming from marker
     ...
 
     <script nomodule>
-        ({
+        {
             prop1: isHappy && !isWealthy && liberated.length > 17,
-            prop2: liberated.blink(),
-        })
+            prop2: liberated.blink()
+        }
     </script>
-    <any-element itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated.'></any-element>
+    <any-element itemprop=isInNirvana be-computed='from previous script element, passing in $isHappy, @isWealthy, #liberated, then assign result to $0.'></any-element>
 </form>
 ```
 
-## Example 3a [TODO] Support for inner transform
+## Example 2b Assigning objects, compact notation, external script [TODO]
+
+```html
+<form itemscope>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <input type=checkbox name=isWealthy>
+    <div contenteditable id=liberated>abc</div>
+    ...
+
+    <script nomodule>
+        {
+            prop1: isHappy && !isWealthy && liberated.length > 17,
+            prop2: liberated.blink()
+        }
+    </script>
+    <any-element itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated, then assign result to $0.'></any-element>
+</form>
+```
+
+## Example 2c Assigning objects, verbose notation, inline attribute [TODO]
+
+```html
+<form itemscope>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <input type=checkbox name=isWealthy>
+    <div contenteditable id=liberated>abc</div>
+    ...
+
+    <any-element itemprop=isInNirvana
+        onload="
+        {
+            prop1: isHappy && !isWealthy && liberated.length > 17,
+            prop2: liberated.blink()
+        }
+        " 
+        be-computed='from onload expression, passing in $isHappy, @isWealthy, #liberated, then assign result to $0.'></any-element>
+</form>
+```
+
+## Example 2d Assigning objects, compact notation, inline attribute [TODO]
+
+```html
+<form itemscope>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <input type=checkbox name=isWealthy>
+    <div contenteditable id=liberated>abc</div>
+    ...
+    <any-element itemprop=isInNirvana
+        onload="
+        {
+            prop1: isHappy && !isWealthy && liberated.length > 17,
+            prop2: liberated.blink()
+        }
+        " 
+        be-computed='from $isHappy, @isWealthy, #liberated, assigning result to $0.'></any-element>
+</form>
+```
+
+## Example 3a Support for inner transform, verbose notation [TODO] 
 
 
 ```html
@@ -252,8 +310,9 @@ Value coming from marker
 
     ...
     
-    <div be-computed='from onload expression, passing in $isHappy, $isWealthy, followed by data-xform transform.' 
+    <div  
         onload="{isInNirvana: isHappy && isWealthy}"
+        be-computed='from onload expression, passing in $isHappy, $isWealthy, followed by data-xform transform.'
         data-xform='{
             "span": "isInNirvana"
         }'

@@ -9,7 +9,8 @@
 	},
 	"files": [
 		"be-computed.ts",
-		"my-custom-element/my-custom-element.ts"
+		"my-custom-element/my-custom-element.ts",
+		"any-element/any-element.ts"
 	],
 	"exclude":[
 		"node_modules"
