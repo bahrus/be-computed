@@ -164,14 +164,11 @@ Specify export symbol
     <div contenteditable id=liberated>abc</div>
     ...
 
-    <script nomodule>
-
-    </script>
     <link itemprop=isInNirvana 
         onload="
             export const calculateInNirvana = ({isHappy, isWealthy, liberated}) => {
                 console.log({isHappy, isWealthy, liberated});
-                return isHappy && !isWealthy && liberated.length > 17;
+                return isHappy && !isWealthy && liberated?.length > 17;
             }
         "
         be-computed='from onload export of calculateInNirvana, passing in $isHappy, @isWealthy, #liberated.'
@@ -182,7 +179,7 @@ Specify export symbol
 This allows for multiple expressions that can be used by different enhancements.
 
 
-## Example 1h -- Values coming from host.
+## Example 1h -- Values coming from host. [TODO]
 
 ```html
 <my-custom-element>
@@ -197,7 +194,7 @@ This allows for multiple expressions that can be used by different enhancements.
 
 The slash is optional, so this will also work:
 
-## Example 1i -- Values coming from host, take II.
+## Example 1i -- Values coming from host, take II. [TODO]
 
 ```html
 <my-custom-element>
@@ -210,7 +207,7 @@ The slash is optional, so this will also work:
 </my-custom-element>
 ```
 
-## Example 1j
+## Example 1j [TODO]
 
 Value coming from marker
 
@@ -226,7 +223,7 @@ Value coming from marker
 </form>
 ```
 
-## Example 2a
+## Example 2a [TODO]
 
 ```html
 <form itemscope>

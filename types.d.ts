@@ -47,6 +47,7 @@ export interface Actions{
 
 export interface ComputeStatement{
     attrContainingExpression?: string,
+    importName?: string,
     previousElementScriptElement?: boolean,
     onloadOrPreviousElementScriptElement?: boolean,
     dependencies?: string,

@@ -6,6 +6,10 @@ const reValueStatement = [
         defaultVals: { previousElementScriptElement: true }
     },
     {
+        regExp: new RegExp(String.raw `^(?<attrContainingExpression>[\w]+)(?<!\\)ExportOf(?<importName>[\w]+)(?<!\\),PassingIn(?<dependencies>.*)`),
+        defaultVals: {}
+    },
+    {
         regExp: new RegExp(String.raw `^(?<attrContainingExpression>[\w]+)(?<!\\)Expression,PassingIn(?<dependencies>.*)`),
         defaultVals: {}
     },
@@ -23,7 +27,7 @@ export function prsFrom(self) {
         fromStatements = [];
     for (const fromStatementString of from) {
         const computeStatement = tryParse(fromStatementString, reValueStatement);
-        //console.log({computeStatement, fromStatementString});
+        console.log({ computeStatement, fromStatementString });
         if (computeStatement === null)
             throw 'PE'; //Parse Error
         const { dependencies } = computeStatement;
