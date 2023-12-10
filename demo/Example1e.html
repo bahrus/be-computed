@@ -8,12 +8,12 @@
         {
             "imports": {
                 "be-enhanced/": "../node_modules/be-enhanced/",
-                "be-exportable/": "../node_modules/be-exportable/",
+                "be-exporting/": "../node_modules/be-exporting/",
                 "be-hive/":  "../node_modules/be-hive/",
-                "be-intl/": "../node_modules/be-intl/",
                 "be-linked/": "../node_modules/be-linked/",
-                "be-propagating/": "../node_modules/be-propagating/",
+                "be-observant/": "../node_modules/be-observant/",
                 "be-value-added/": "../node_modules/be-value-added/",
+                "mount-observer/": "../node_modules/mount-observer/",
                 "trans-render/": "../node_modules/trans-render/",
                 "xtal-element/": "../node_modules/xtal-element/"
             }
@@ -21,10 +21,18 @@
     </script>
 </head>
 <body>
-    <my-custom-element></my-custom-element>
+    <form itemscope>
+        <link itemprop=isHappy href=https://schema.org/True>
+        <input type=checkbox name=isWealthy>
+        <div contenteditable id=liberated>abc</div>
+        ...
+        <link itemprop=isInNirvana
+          onload="isHappy && !isWealthy && liberated?.length > 17"
+          be-computed='from $isHappy, @isWealthy, #liberated.'
+        >
+    </form>
     <script type=module>
         import '../be-computed.js';
-        import '../my-custom-element/my-custom-element.js';
     </script>
 </body>
 </html>

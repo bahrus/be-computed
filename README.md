@@ -115,8 +115,7 @@ Advantages of using script element -- less issues with characters that cause pro
 </div>
 ```
 
-## Example 1e -- bind to named elements and id'd elements [TODO]
-
+## Example 1e -- bind to named elements and id'd elements
 ```html
 <form itemscope>
     <link itemprop=isHappy href=https://schema.org/True>
@@ -124,7 +123,7 @@ Advantages of using script element -- less issues with characters that cause pro
     <div contenteditable id=liberated>abc</div>
     ...
     <link itemprop=isInNirvana
-      onload="isHappy && !isWealthy && liberated.length > 17"
+      onload="isHappy && !isWealthy && liberated?.length > 17"
       be-computed='from $isHappy, @isWealthy, #liberated.'
     >
 </form>
