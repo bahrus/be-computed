@@ -1,8 +1,16 @@
 import { tryParse } from 'be-enhanced/cpu.js';
 import { lispToCamel } from 'trans-render/lib/lispToCamel.js';
+const previousScriptElementExpression = String.raw `(?<!\\)previousScriptElementExpression`;
 const reValueStatement = [
     {
-        regExp: new RegExp(String.raw `^(?<!\\)previousScriptElementExpression,PassingIn(?<dependencies>.*)`),
+        regExp: new RegExp(String.raw `^${previousScriptElementExpression},PassingIn(?<dependencies>.*),AndAssignResult`),
+        defaultVals: {
+            previousElementScriptElement: true,
+            assignResult: true
+        }
+    },
+    {
+        regExp: new RegExp(String.raw `^${previousScriptElementExpression},PassingIn(?<dependencies>.*)`),
         defaultVals: { previousElementScriptElement: true }
     },
     {

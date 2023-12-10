@@ -51,6 +51,7 @@ export interface ComputeStatement{
     previousElementScriptElement?: boolean,
     onloadOrPreviousElementScriptElement?: boolean,
     dependencies?: string,
-    args?: Array<Arg>
+    args?: Array<Arg>,
+    assignResult?: boolean,
 }
 

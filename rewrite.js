@@ -18,8 +18,14 @@ export function rewrite(script, names) {
         return trimmedScript;
     }
     if (trimmedScript[0] === '(') {
-        const newScript2 = `export const expr = async ${trimmedScript}`;
-        return newScript2;
+        if (trimmedScript.startsWith('({') && trimmedScript.endsWith('})') && !trimmedScript.includes('=>')) {
+            const newScript1 = `export const expr = async ({${names.join(', ')}}) =>${trimmedScript}`;
+            return newScript1;
+        }
+        else {
+            const newScript2 = `export const expr = async ${trimmedScript}`;
+            return newScript2;
+        }
     }
     const newScript3 = `
         export const expr = async ({${names.join(', ')}}) => {

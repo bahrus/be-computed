@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Example 2a</title>
+    <title>Example 1a</title>
     <script type=importmap>
         {
             "imports": {
@@ -22,19 +22,22 @@
 </head>
 <body>
     <form itemscope>
+        <link itemprop=isHappy href=https://schema.org/True>
+        <input type=checkbox name=isWealthy>
         <div contenteditable id=liberated>abc</div>
         ...
     
         <script nomodule>
             ({
-                numValue: liberated.length
+                prop1: isHappy && !isWealthy && liberated.length > 17,
+                prop2: liberated.blink()
             })
         </script>
-        <my-custom-element be-computed='from #liberated.'></my-custom-element>
+        <any-element itemprop=isInNirvana enh-by-be-computed='from previous script element expression, passing in $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
     </form>
     <script type=module>
         import '../be-computed.js';
-        import '../my-custom-element/my-custom-element.js';
+        import '../any-element/any-element.js';
     </script>
 </body>
 </html>

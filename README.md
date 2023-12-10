@@ -233,14 +233,16 @@ Value coming from marker
     ...
 
     <script nomodule>
-        {
+        ({
             prop1: isHappy && !isWealthy && liberated.length > 17,
             prop2: liberated.blink()
-        }
+        })
     </script>
-    <any-element itemprop=isInNirvana be-computed='from previous script element, passing in $isHappy, @isWealthy, #liberated, then assign result to $0.'></any-element>
+    <any-element itemprop=isInNirvana be-computed='from previous script element, passing in $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
 </form>
 ```
+
+Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to use arrow functions inside, need to provide the context.
 
 ## Example 2b Assigning objects, compact notation, external script [TODO]
 
@@ -257,7 +259,7 @@ Value coming from marker
             prop2: liberated.blink()
         }
     </script>
-    <any-element itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated, then assign result to $0.'></any-element>
+    <any-element itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
 </form>
 ```
 
@@ -277,7 +279,7 @@ Value coming from marker
             prop2: liberated.blink()
         }
         " 
-        be-computed='from onload expression, passing in $isHappy, @isWealthy, #liberated, then assign result to $0.'></any-element>
+        be-computed='from onload expression, passing in $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
 </form>
 ```
 
@@ -296,7 +298,8 @@ Value coming from marker
             prop2: liberated.blink()
         }
         " 
-        be-computed='from $isHappy, @isWealthy, #liberated, assigning result to $0.'></any-element>
+        be-computed='from $isHappy, @isWealthy, #liberated, and assign result.'>
+    </any-element>
 </form>
 ```
 
@@ -312,7 +315,31 @@ Value coming from marker
     
     <div  
         onload="{isInNirvana: isHappy && isWealthy}"
-        be-computed='from onload expression, passing in $isHappy, $isWealthy, followed by data-xform transform.'
+        be-computed='from onload expression, passing in $isHappy, $isWealthy, and do data-xform transform.'
+        data-xform='{
+            "span": "isInNirvana"
+        }'
+        >
+        <span></span>
+    </div>
+</div>
+```
+
+Uses DTR syntax (enhanced by be-linked for things like html signals, etc).
+
+## Example 3b Support for inner transform, compact notation [TODO] 
+
+
+```html
+<div itemscope>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <link itemprop=isWealthy href=https://schema.org/False>
+
+    ...
+    
+    <div  
+        onload="{isInNirvana: isHappy && isWealthy}"
+        be-computed='from $isHappy, $isWealthy, with xform.'
         data-xform='{
             "span": "isInNirvana"
         }'
