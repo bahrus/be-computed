@@ -263,7 +263,7 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
 </form>
 ```
 
-## Example 2c Assigning objects, verbose notation, inline attribute [TODO]
+## Example 2c Assigning objects, verbose notation, inline attribute
 
 ```html
 <form itemscope>
@@ -273,12 +273,10 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
     ...
 
     <any-element itemprop=isInNirvana
-        onload="
-        {
+        onload="({
             prop1: isHappy && !isWealthy && liberated?.length > 17,
             prop2: liberated?.blink()
-        }
-        " 
+        })" 
         be-computed='from onload expression, passing in $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
 </form>
 ```

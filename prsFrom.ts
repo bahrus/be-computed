@@ -5,6 +5,7 @@ import {arr, tryParse} from 'be-enhanced/cpu.js';
 import {lispToCamel} from 'trans-render/lib/lispToCamel.js';
 
 const previousScriptElementExpression = String.raw `(?<!\\)previousScriptElementExpression`;
+const attrContainingExpression = String.raw `(?<attrContainingExpression>[\w]+)`;
 const reValueStatement: RegExpOrRegExpExt<ComputeStatement>[] = [
     {
         regExp: new RegExp(String.raw `^${previousScriptElementExpression},PassingIn(?<dependencies>.*),AndAssignResult`),
@@ -14,15 +15,21 @@ const reValueStatement: RegExpOrRegExpExt<ComputeStatement>[] = [
         }
     },
     {
+        regExp: new RegExp(String.raw `^${attrContainingExpression}(?<!\\)Expression,PassingIn(?<dependencies>.*),AndAssignResult`),
+        defaultVals:{
+            assignResult: true
+        }
+    },
+    {
         regExp: new RegExp(String.raw `^${previousScriptElementExpression},PassingIn(?<dependencies>.*)`),
         defaultVals:{previousElementScriptElement: true}
     },
     {
-        regExp: new RegExp(String.raw  `^(?<attrContainingExpression>[\w]+)(?<!\\)ExportOf(?<importName>[\w]+)(?<!\\),PassingIn(?<dependencies>.*)`),
+        regExp: new RegExp(String.raw  `^${attrContainingExpression}(?<!\\)ExportOf(?<importName>[\w]+)(?<!\\),PassingIn(?<dependencies>.*)`),
         defaultVals: {}
     },
     {
-        regExp: new RegExp(String.raw  `^(?<attrContainingExpression>[\w]+)(?<!\\)Expression,PassingIn(?<dependencies>.*)`),
+        regExp: new RegExp(String.raw  `^${attrContainingExpression}(?<!\\)Expression,PassingIn(?<dependencies>.*)`),
         defaultVals: {}
     },
     {
