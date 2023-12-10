@@ -15,7 +15,8 @@
 export function rewrite(script, names) {
     const trimmedScript = script.trim();
     if (trimmedScript[0] === '(') {
-        throw 'NI';
+        const newScript2 = `export const expr = async ${trimmedScript}`;
+        return newScript2;
     }
     const newScript = `
         export const expr = async ({${names.join(', ')}}) => {

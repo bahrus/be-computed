@@ -129,7 +129,7 @@ Advantages of using script element -- less issues with characters that cause pro
 </form>
 ```
 
-## Example 1f -- Add more context to the scripting [TODO]
+## Example 1f -- Add more context to the scripting
 
 
 ```html
