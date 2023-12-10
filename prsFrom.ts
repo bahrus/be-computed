@@ -26,7 +26,7 @@ export function prsFrom(self: AP) : PAP {
     if(fromStatements === undefined) fromStatements = [];
     for(const fromStatementString of from!){
         const computeStatement = tryParse(fromStatementString, reValueStatement) as ComputeStatement;
-        console.log({computeStatement, fromStatementString});
+        //console.log({computeStatement, fromStatementString});
         if(computeStatement === null) throw 'PE'; //Parse Error
         const {dependencies} = computeStatement;
         const splitDependencies = dependencies!.split(',').map(x => x.trim());
