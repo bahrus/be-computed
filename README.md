@@ -139,14 +139,11 @@ Advantages of using script element -- less issues with characters that cause pro
     <div contenteditable id=liberated>abc</div>
     ...
 
-    <script nomodule>
-
-    </script>
     <link itemprop=isInNirvana 
         onload="
             ({isHappy, isWealthy, liberated}) => {
                 console.log({isHappy, isWealthy, liberated});
-                return isHappy && !isWealthy && liberated.length > 17;
+                return isHappy && !isWealthy && liberated?.length > 17;
             }
         "
         be-computed='from $isHappy, @isWealthy, #liberated.'

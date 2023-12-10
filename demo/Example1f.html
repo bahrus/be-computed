@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Example 1f</title>
+    <title>Example 1e</title>
     <script type=importmap>
         {
             "imports": {
                 "be-enhanced/": "../node_modules/be-enhanced/",
-                "be-exportable/": "../node_modules/be-exportable/",
+                "be-exporting/": "../node_modules/be-exporting/",
                 "be-hive/":  "../node_modules/be-hive/",
-                "be-intl/": "../node_modules/be-intl/",
                 "be-linked/": "../node_modules/be-linked/",
-                "be-propagating/": "../node_modules/be-propagating/",
+                "be-observant/": "../node_modules/be-observant/",
                 "be-value-added/": "../node_modules/be-value-added/",
+                "mount-observer/": "../node_modules/mount-observer/",
                 "trans-render/": "../node_modules/trans-render/",
                 "xtal-element/": "../node_modules/xtal-element/"
             }
@@ -22,17 +22,23 @@
 </head>
 <body>
     <form itemscope>
-        <my-custom-element -num-value></my-custom-element>
-        
+        <link itemprop=isHappy href=https://schema.org/True>
+        <input type=checkbox name=isWealthy>
+        <div contenteditable id=liberated>abc</div>
+        ...
     
-        <script nomodule>
-            numValue ** 3
-        </script>
-        <meta itemprop=square be-computed='from -num-value.'>
+        <link itemprop=isInNirvana 
+            onload="
+                ({isHappy, isWealthy, liberated}) => {
+                    console.log({isHappy, isWealthy, liberated});
+                    return isHappy && !isWealthy && liberated?.length > 17;
+                }
+            "
+            be-computed='from $isHappy, @isWealthy, #liberated.'
+        >
     </form>
     <script type=module>
         import '../be-computed.js';
-        import '../my-custom-element/my-custom-element.js';
     </script>
 </body>
 </html>
