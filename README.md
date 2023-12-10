@@ -83,7 +83,7 @@ The value of the computation can be obtained via oLink.beEnhanced.beValueAdded.v
 
 Advantages of using script element -- less issues with characters that cause problems inside an attribute, may get better IDE support.  Disadvantages -- a little further away, a little more verbose, if you need to move the element, need to remember to move the associated script element along with it.
 
-## Example 1c -- compact notation with inline expression [TODO]
+## Example 1c -- compact notation with inline expression 
 
 ```html
 <div itemscope>
