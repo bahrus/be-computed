@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Example 1i</title>
+    <title>Example 1j</title>
     <script type=importmap>
         {
             "imports": {
@@ -22,7 +22,12 @@
     </script>
 </head>
 <body>
-    <my-custom-element></my-custom-element>
+    <my-custom-element -num-value></my-custom-element>
+    
+
+    <meta itemprop=square
+        onload="numValue ** 2"
+        be-computed='from -num-value.'>
     <script type=module>
         import '../be-computed.js';
         import '../my-custom-element/my-custom-element.js';

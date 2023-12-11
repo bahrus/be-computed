@@ -216,10 +216,9 @@ Value coming from marker
     <my-custom-element -num-value></my-custom-element>
     
 
-    <script nomodule>
-        numValue ** 2
-    </script>
-    <meta itemprop=square be-computed='from -num-value.'>
+    <meta itemprop=square
+        onload="numValue ** 2"
+        be-computed='from -num-value.'>
 </form>
 ```
 
