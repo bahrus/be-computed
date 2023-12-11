@@ -194,7 +194,7 @@ This allows for multiple expressions that can be used by different enhancements.
 
 The slash is optional, so this will also work:
 
-## Example 1i -- Values coming from host, take II. [TODO]
+## Example 1i -- Values coming from host, take II.
 
 ```html
 <my-custom-element>

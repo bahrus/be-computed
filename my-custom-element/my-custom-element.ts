@@ -26,6 +26,8 @@ export class MyCustomElement extends HTMLElement{
         </script>
         <h3>Exampe 1h</h3>
         <data itemprop=squared be-computed='from /numValue.'></data>
+        <h3>Exampe 1i</h3>
+        <data itemprop=squared be-computed='from numValue.'></data>
         <be-hive></be-hive>
     `;
     }
