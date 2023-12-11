@@ -11,7 +11,7 @@
     "observe",
     "conditional"
   ],
-  "description": "Compute values from other HTML signals via local script tags.",
+  "description": "Hydrate and compute values reactively from other (server side rendered/generated) HTML signals via local script tags.",
   "main": "be-computed.js",
   "module": "be-computed.js",
   "exports": {

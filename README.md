@@ -7,7 +7,7 @@
 [![How big is this package in your project?](https://img.shields.io/bundlephobia/minzip/be-computed?style=for-the-badge)](https://bundlephobia.com/result?p=be-computed)
 <img src="http://img.badgesize.io/https://cdn.jsdelivr.net/npm/be-computed?compression=gzip">
 
-Compute values from other HTML signals via local script tags.
+Hydrate and compute values reactively from other (server side rendered/generated) HTML signals via local script tags.
 
 *be-computed* is very close in purpose to [be-overloading](https://github.com/bahrus/be-overloading).  *be-overloading* focuses more on user-initiated event driven reactions.  *be-computed* is more focused on observing peer elements (and/or the host) and calculating values based on these dependencies reactively. 
 
@@ -281,7 +281,7 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
 </form>
 ```
 
-## Example 2d Assigning objects, compact notation, inline attribute [TODO]
+## Example 2d Assigning objects, compact notation, inline attribute
 
 ```html
 <form itemscope>
