@@ -207,7 +207,7 @@ The slash is optional, so this will also work:
 </my-custom-element>
 ```
 
-## Example 1j [TODO]
+## Example 1j
 
 Value coming from marker
 
