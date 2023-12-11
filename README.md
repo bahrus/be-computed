@@ -179,7 +179,7 @@ Specify export symbol
 This allows for multiple expressions that can be used by different enhancements.
 
 
-## Example 1h -- Values coming from host. [TODO]
+## Example 1h -- Values coming from host.
 
 ```html
 <my-custom-element>
