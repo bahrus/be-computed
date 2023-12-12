@@ -50,7 +50,7 @@ What this does:
 1.  Since the onload attribute expression doesn't start with export const ..., and doesn't start with an open parenthesis, *be-computed* wraps the expression like so:
 
 ```JavaScript
-export const expr = ({isHappy, isWealthy}) => {
+export const expr = async ({isHappy, isWealthy}) => {
     return isHappy && !isWealthy;
 }
 ```
@@ -300,6 +300,28 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
 </form>
 ```
 
+## Example 2e Assigning object to be-scoped enhancement [TODO]
+
+This would allow transforms to be based on.
+
+```html
+<form itemscope>
+    <link itemprop=isHappy href=https://schema.org/True>
+    <input type=checkbox name=isWealthy>
+    <div contenteditable id=liberated>abc</div>
+    ...
+    <div itemscope
+        onload="
+        {
+            prop1: isHappy && !isWealthy && liberated?.length > 17,
+            prop2: liberated?.blink()
+        }
+        " 
+        be-computed='from $isHappy, @isWealthy, #liberated, and assign result to scope.'>
+    </any-element>
+</form>
+```
+
 ## Example 3a Support for inner transform, verbose notation [TODO] 
 
 
@@ -312,7 +334,7 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
     
     <div  
         onload="{isInNirvana: isHappy && isWealthy}"
-        be-computed='from onload expression, passing in $isHappy, $isWealthy, and do data-xform transform.'
+        be-computed='from onload expression, passing in $isHappy, $isWealthy, and do xform transform.'
         data-xform='{
             "span": "isInNirvana"
         }'
@@ -322,7 +344,7 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
 </div>
 ```
 
-Uses DTR syntax (enhanced by be-linked for things like html signals, etc).
+
 
 ## Example 3b Support for inner transform, compact notation [TODO] 
 
