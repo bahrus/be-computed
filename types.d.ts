@@ -53,5 +53,7 @@ export interface ComputeStatement{
     dependencies?: string,
     args?: Array<Arg>,
     assignResult?: boolean,
+    localProp?: string,
+    matchIdx?: number,
 }
 

@@ -2,43 +2,64 @@ import { tryParse } from 'be-enhanced/cpu.js';
 import { lispToCamel } from 'trans-render/lib/lispToCamel.js';
 const previousScriptElementExpression = String.raw `(?<!\\)previousScriptElementExpression`;
 const attrContainingExpression = String.raw `(?<attrContainingExpression>[\w]+)`;
+const passingInDependencies = String.raw `PassingIn(?<dependencies>.*)`;
+const Expression = String.raw `(?<!\\)Expression`;
 const reValueStatement = [
     {
-        regExp: new RegExp(String.raw `^${previousScriptElementExpression},PassingIn(?<dependencies>.*),AndAssignResult`),
+        regExp: new RegExp(String.raw `^${previousScriptElementExpression},${passingInDependencies},AndAssignResult`),
         defaultVals: {
             previousElementScriptElement: true,
-            assignResult: true
+            assignResult: true,
+            matchIdx: 0,
         }
     },
     {
-        regExp: new RegExp(String.raw `^${attrContainingExpression}(?<!\\)Expression,PassingIn(?<dependencies>.*),AndAssignResult`),
+        regExp: new RegExp(String.raw `^${attrContainingExpression}${Expression},${passingInDependencies},AndAssignResult`),
         defaultVals: {
-            assignResult: true
+            assignResult: true,
+            matchIdx: 1,
         }
     },
     {
-        regExp: new RegExp(String.raw `^${previousScriptElementExpression},PassingIn(?<dependencies>.*)`),
-        defaultVals: { previousElementScriptElement: true }
+        regExp: new RegExp(String.raw `^${previousScriptElementExpression},${passingInDependencies}`),
+        defaultVals: {
+            previousElementScriptElement: true,
+            matchIdx: 2,
+        }
     },
     {
-        regExp: new RegExp(String.raw `^${attrContainingExpression}(?<!\\)ExportOf(?<importName>[\w]+)(?<!\\),PassingIn(?<dependencies>.*)`),
-        defaultVals: {}
+        regExp: new RegExp(String.raw `^${attrContainingExpression}(?<!\\)ExportOf(?<importName>[\w]+)(?<!\\),${passingInDependencies}`),
+        defaultVals: {
+            matchIdx: 3,
+        }
     },
     {
-        regExp: new RegExp(String.raw `^${attrContainingExpression}(?<!\\)Expression,PassingIn(?<dependencies>.*)`),
-        defaultVals: {}
+        regExp: new RegExp(String.raw `^${attrContainingExpression}${Expression},${passingInDependencies}`),
+        defaultVals: {
+            matchIdx: 4,
+        }
+    },
+    {
+        regExp: new RegExp(String.raw `^(?<dependencies>.*),AndAssignResultTo\$0(?<localProp>[\w\+]+)`),
+        defaultVals: {
+            assignResult: true,
+            onloadOrPreviousElementScriptElement: true,
+            matchIdx: 5,
+        }
     },
     {
         regExp: new RegExp(String.raw `^(?<dependencies>.*),AndAssignResult`),
         defaultVals: {
             assignResult: true,
-            onloadOrPreviousElementScriptElement: true
+            onloadOrPreviousElementScriptElement: true,
+            matchIdx: 6,
         }
     },
     {
         regExp: new RegExp(String.raw `^(?<dependencies>.*)`),
         defaultVals: {
-            onloadOrPreviousElementScriptElement: true
+            onloadOrPreviousElementScriptElement: true,
+            matchIdx: 7,
         }
     }
 ];
