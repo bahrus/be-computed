@@ -66,8 +66,9 @@ export class ComputationObserver{
         }
         const result = await this.expr(vm);
         console.log({observe, result});
-        const {assignResult} = this.fromStatement;
+        const {assignResult, localProp} = this.fromStatement;
         if(assignResult){
+            if(localProp !== undefined) throw 'NI';
             Object.assign(this.enhancedElement, result);
         }else{
             if(this.#localSignal === undefined){

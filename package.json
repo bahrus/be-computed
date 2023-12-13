@@ -29,6 +29,7 @@
     "be-linked": "0.0.70",
     "be-observant": "0.0.171",
     "be-propagating": "0.0.29",
+    "be-scoped": "0.0.21",
     "be-value-added": "0.0.19",
     "trans-render": "0.0.707",
     "xtal-element": "0.0.579"
