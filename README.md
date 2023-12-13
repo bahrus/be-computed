@@ -300,9 +300,13 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
 </form>
 ```
 
-## Example 2e Assigning object to be-scoped enhancement [TODO]
+## Example 2e Assigning object to sub property [TODO]
+
+## Example 2f Assigning object to be-scoped enhancement [TODO]
 
 This would allow transforms to be based on.
+
+We can assign the result of a computation to an enhancement, or the "stateProp" property of an enhancement (as defined in the static config property of the enhancement).  So one prominent use case is assigning to local "scope" of an element:
 
 ```html
 <form itemscope>
@@ -317,78 +321,13 @@ This would allow transforms to be based on.
             prop2: liberated?.blink()
         }
         " 
-        be-computed='from $isHappy, @isWealthy, #liberated, and assign result to scope.'>
-    </any-element>
+        be-computed='from $isHappy, @isWealthy, #liberated, and assign result to $0+beScoped.'>
+    </div>
 </form>
 ```
 
-## Example 3a Support for inner transform, verbose notation [TODO] 
 
 
-```html
-<div itemscope>
-    <link itemprop=isHappy href=https://schema.org/True>
-    <link itemprop=isWealthy href=https://schema.org/False>
-
-    ...
-    
-    <div  
-        onload="{isInNirvana: isHappy && isWealthy}"
-        be-computed='from onload expression, passing in $isHappy, $isWealthy, and do xform transform.'
-        data-xform='{
-            "span": "isInNirvana"
-        }'
-        >
-        <span></span>
-    </div>
-</div>
-```
-
-
-
-## Example 3b Support for inner transform, compact notation [TODO] 
-
-
-```html
-<div itemscope>
-    <link itemprop=isHappy href=https://schema.org/True>
-    <link itemprop=isWealthy href=https://schema.org/False>
-
-    ...
-    
-    <div  
-        onload="{isInNirvana: isHappy && isWealthy}"
-        be-computed='from $isHappy, $isWealthy, with xform.'
-        data-xform='{
-            "span": "isInNirvana"
-        }'
-        >
-        <span></span>
-    </div>
-</div>
-```
-
-## Example 3b [TODO] Support for inner transform
-
-
-```html
-<div itemscope>
-    <link itemprop=isHappy>
-    <link itemprop=isWealthy>
-
-    ...
-    
-    <div be-computed='apply data-xform transform on $isHappy, $isWealthy.' 
-        data-xform='{
-            "span": "isHappy",
-            "article": "isWealthy"
-        }'
-        >
-        <span></span>
-        <article></article>
-    </div>
-</div>
-```
 
 
 [TODO] be-linked extends trans-render to support signals
