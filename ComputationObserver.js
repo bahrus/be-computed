@@ -2,6 +2,7 @@ import { getLocalSignal } from "be-linked/defaults.js";
 import { getRemoteEl } from "be-linked/getRemoteEl.js";
 import { Observer } from "be-observant/Observer.js";
 import { setSignalVal } from 'be-linked/setSignalVal.js';
+//import {AP as beScopedProps} from 'be-scoped/types';
 export class ComputationObserver {
     expr;
     fromStatement;
@@ -55,10 +56,23 @@ export class ComputationObserver {
         }
         const result = await this.expr(vm);
         console.log({ observe, result });
-        const { assignResult, localProp } = this.fromStatement;
+        const { fromStatement, enhancedElement } = this;
+        const { assignResult, localProp } = fromStatement;
         if (assignResult) {
-            if (localProp !== undefined)
-                throw 'NI';
+            if (localProp !== undefined) {
+                if (localProp[0] === '+') {
+                    const enhancement = localProp.substring(1);
+                    switch (enhancement) {
+                        case 'beScoped': {
+                            const { BeScoped } = await import('be-scoped/be-scoped.js');
+                            const beScopedInstance = await enhancedElement.beEnhanced.whenResolved('be-scoped');
+                            Object.assign(beScopedInstance[BeScoped.beConfig.stateProp], result);
+                            break;
+                        }
+                    }
+                }
+            }
+            ;
             Object.assign(this.enhancedElement, result);
         }
         else {
