@@ -1,4 +1,4 @@
-# be-computed [WIP]
+# be-computed
 
 
 <!-- [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/be-switched)  -->
@@ -302,7 +302,7 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
 
 ## Example 2e Assigning object to sub property [TODO]
 
-## Example 2f Assigning object to be-scoped enhancement [TODO]
+## Example 2f Assigning object to be-scoped enhancement
 
 This would allow transforms to be based on.
 
@@ -326,11 +326,6 @@ We can assign the result of a computation to an enhancement, or the "stateProp" 
 </form>
 ```
 
-
-
-
-
-[TODO] be-linked extends trans-render to support signals
 
 ## Viewing Your Element Locally
 
