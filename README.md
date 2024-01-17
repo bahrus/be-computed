@@ -1,4 +1,4 @@
-# be-computed
+# be-computed [WIP]
 
 
 <!-- [![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg)](https://www.webcomponents.org/element/be-switched)  -->
@@ -11,6 +11,8 @@ Hydrate and compute values reactively from other (server side rendered/generated
 
 *be-computed* is very close in purpose to [be-overloading](https://github.com/bahrus/be-overloading).  *be-overloading* focuses more on user-initiated event driven reactions.  *be-computed* is more focused on observing peer elements (and/or the host) and calculating values based on these dependencies reactively. 
 
+Obscure note (ignore if it not understanding the context):  This behavior probably doesn't make sense to be used where it makes sense to use the [trans-render](https://github.com/bahrus/trans-render?tab=readme-ov-file#part-10----trans-render-the-web-component) web component.  For that reason, not separating the be-hive registration from the be-computed class.
+
 ## Special Symbols
 
 In the examples below, we will encounter special symbols used in order to keep the statements small, as far as identifying which elements to pull in property values from, and observing those elements for property value changes:
@@ -19,7 +21,7 @@ In the examples below, we will encounter special symbols used in order to keep t
 |-------------|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
 | /propName   |"Hostish"             | Attaches listeners to getters/setters on properties of "hostish".                                                                           |
 | @propName   |Name attribute        | Listens for input events on form elements based on matching the name attribute.                                                             |
-| $propName   |Itemprop attribute    | Matches element based on matching itemprop attribute.  If contenteditible, listens for input events.  Otherwise, uses be-value-added.       |
+| |propName   |Itemprop attribute    | Matches element based on matching itemprop attribute.  If contenteditible, listens for input events.  Otherwise, uses be-value-added.       |
 | #propName   |Id attribute          | Matches element based on id within ShadowDOM realm.  Listens for input events.                                                              |
 | -prop-name  |Marker indicates prop | Matches elements based on finding the exact attribute starting with a dash.  Attaches listeners to getters/setters.                         |
 
@@ -40,7 +42,7 @@ In the examples below, we will encounter special symbols used in order to keep t
     
     <link itemprop=isInNirvana 
         onload="isHappy && !isWealthy"
-        be-computed='from onload expression, passing in $isHappy, $isWealthy.' 
+        be-computed='from onload expression, passing in |isHappy, |isWealthy.' 
     >
 </div>
 ```
@@ -77,7 +79,7 @@ The value of the computation can be obtained via oLink.beEnhanced.beValueAdded.v
     <script nomodule>
         isHappy && !isWealthy
     </script>
-    <link itemprop=isInNirvana be-computed='from previous script element expression, passing in $isHappy, $isWealthy.'>
+    <link itemprop=isInNirvana be-computed='from previous script element expression, passing in |isHappy, |isWealthy.'>
 </div>
 ```
 
@@ -94,7 +96,7 @@ Advantages of using script element -- less issues with characters that cause pro
     
     <link itemprop=isInNirvana 
         onload="isHappy && !isWealthy" 
-        be-computed='from $isHappy, $isWealthy.' 
+        be-computed='from |isHappy, |isWealthy.' 
     >
 </div>
 ```
@@ -111,7 +113,7 @@ Advantages of using script element -- less issues with characters that cause pro
     <script nomodule>
         isHappy && !isWealthy
     </script>
-    <link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy.'>
+    <link itemprop=isInNirvana be-computed='from |isHappy, |isWealthy.'>
 </div>
 ```
 
@@ -124,7 +126,7 @@ Advantages of using script element -- less issues with characters that cause pro
     ...
     <link itemprop=isInNirvana
       onload="isHappy && !isWealthy && liberated?.length > 17"
-      be-computed='from $isHappy, @isWealthy, #liberated.'
+      be-computed='from |isHappy, @isWealthy, #liberated.'
     >
 </form>
 ```
@@ -146,7 +148,7 @@ Advantages of using script element -- less issues with characters that cause pro
                 return isHappy && !isWealthy && liberated?.length > 17;
             }
         "
-        be-computed='from $isHappy, @isWealthy, #liberated.'
+        be-computed='from |isHappy, @isWealthy, #liberated.'
     >
 </form>
 ```
@@ -171,7 +173,7 @@ Specify export symbol
                 return isHappy && !isWealthy && liberated?.length > 17;
             }
         "
-        be-computed='from onload export of calculateInNirvana, passing in $isHappy, @isWealthy, #liberated.'
+        be-computed='from onload export of calculateInNirvana, passing in |isHappy, @isWealthy, #liberated.'
     >
 </form>
 ```
@@ -237,7 +239,7 @@ Value coming from marker
             prop2: liberated?.blink()
         })
     </script>
-    <any-element itemprop=isInNirvana be-computed='from previous script element expression, passing in $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
+    <any-element itemprop=isInNirvana be-computed='from previous script element expression, passing in |isHappy, @isWealthy, #liberated, and assign result.'></any-element>
 </form>
 ```
 
@@ -258,7 +260,7 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
             prop2: liberated?.blink()
         }
     </script>
-    <any-element itemprop=isInNirvana be-computed='from $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
+    <any-element itemprop=isInNirvana be-computed='from |isHappy, @isWealthy, #liberated, and assign result.'></any-element>
 </form>
 ```
 
@@ -276,7 +278,7 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
             prop1: isHappy && !isWealthy && liberated?.length > 17,
             prop2: liberated?.blink()
         })" 
-        be-computed='from onload expression, passing in $isHappy, @isWealthy, #liberated, and assign result.'></any-element>
+        be-computed='from onload expression, passing in |isHappy, @isWealthy, #liberated, and assign result.'></any-element>
 </form>
 ```
 
@@ -295,7 +297,7 @@ Detecting such expressions:  Starts and ends with ({...}), no arrow.  If need to
             prop2: liberated?.blink()
         }
         " 
-        be-computed='from $isHappy, @isWealthy, #liberated, and assign result.'>
+        be-computed='from |isHappy, @isWealthy, #liberated, and assign result.'>
     </any-element>
 </form>
 ```
@@ -321,7 +323,7 @@ We can assign the result of a computation to an enhancement, or the "stateProp" 
             prop2: liberated?.blink()
         }
         " 
-        be-computed='from $isHappy, @isWealthy, #liberated, and assign result to $0+beScoped.'>
+        be-computed='from |isHappy, @isWealthy, #liberated, and assign result to $0+beScoped.'>
     </div>
 </form>
 ```
