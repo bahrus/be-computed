@@ -31,7 +31,7 @@
             isHappy && !isWealthy
         </script>
         <div id=target></div>
-        <link id=link itemprop=isInNirvana be-computed='from $isHappy, $isWealthy.'>
+        <link id=link itemprop=isInNirvana be-computed='from |isHappy, |isWealthy.'>
     </div>
     <script type=module>
         import '../be-computed.js';

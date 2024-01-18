@@ -79,7 +79,7 @@ export function prsFrom(self) {
         for (const dependency of splitDependencies) {
             let remoteType = dependency[0];
             let remoteProp = dependency;
-            if ('/@$-#'.includes(remoteType)) {
+            if ('/@|-#'.includes(remoteType)) {
                 remoteProp = dependency.substring(1);
             }
             else {
